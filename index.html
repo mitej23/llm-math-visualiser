@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LLM Math — Visual Guide</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Code highlighting -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+  <!-- Markdown -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
+
+  <!-- Preact (no build step) -->
+  <script type="importmap">
+  {
+    "imports": {
+      "preact":          "https://esm.sh/preact@10.22.0",
+      "preact/hooks":    "https://esm.sh/preact@10.22.0/hooks",
+      "preact/jsx-runtime": "https://esm.sh/preact@10.22.0/jsx-runtime",
+      "htm/preact":      "https://esm.sh/htm@3.1.1/preact?external=preact"
+    }
+  }
+  </script>
+
+  <style>
+    /* ── Reset ──────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 15px; }
+
+    /* ── Notion-faithful design tokens ───────────────────────────────── */
+    :root {
+      /* Backgrounds */
+      --bg:           #ffffff;
+      --bg-sidebar:   #f7f6f5;
+      --bg-muted:     #f1f0ef;
+      --bg-hover:     rgba(55, 53, 47, 0.06);
+      --bg-active:    rgba(55, 53, 47, 0.09);
+
+      /* Borders */
+      --border:       #e9e9e7;
+      --border-mid:   #d3d1cb;
+
+      /* Text — Notion warm grays */
+      --text:         #37352f;
+      --text-muted:   #787774;
+      --text-subtle:  #b8b6b0;
+
+      /* Accent — Notion blue, used sparingly */
+      --accent:       #2383e2;
+      --accent-bg:    rgba(35, 131, 226, 0.07);
+      --accent-border:rgba(35, 131, 226, 0.22);
+
+      /* Green — Notion teal */
+      --green:        #0f7b6c;
+      --green-bg:     rgba(15, 123, 108, 0.07);
+      --green-border: rgba(15, 123, 108, 0.2);
+
+      --sidebar-w:    252px;
+      --r:            6px;
+      --r-sm:         4px;
+      --ease:         120ms ease;
+
+      --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Scrollbar ─────────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 99px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-subtle); }
+
+    /* ── Layout ────────────────────────────────────────────────────── */
+    #app { display: contents; }
+
+    .layout {
+      display: flex;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── Sidebar ───────────────────────────────────────────────────── */
+    .sidebar {
+      width: var(--sidebar-w);
+      min-width: var(--sidebar-w);
+      height: 100vh;
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 20;
+    }
+
+    /* Brand */
+    .brand {
+      padding: 18px 16px 14px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .brand-icon {
+      width: 28px; height: 28px;
+      border-radius: 6px;
+      background: var(--text);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .brand-text { flex: 1; }
+    .brand-title {
+      font-size: 0.9rem; font-weight: 600;
+      letter-spacing: -0.01em; color: var(--text);
+    }
+    .brand-sub {
+      font-size: 0.65rem; color: var(--text-muted);
+      font-weight: 400; margin-top: 1px;
+    }
+
+    /* Progress */
+    .progress { display: flex; flex-direction: column; gap: 6px; }
+    .progress-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .progress-title {
+      font-size: 0.68rem; font-weight: 500;
+      color: var(--text-muted);
+    }
+    .progress-count {
+      font-size: 0.68rem; color: var(--text-muted);
+      font-variant-numeric: tabular-nums;
+    }
+    .progress-track {
+      height: 2px;
+      background: var(--border-mid);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: var(--accent);
+      transition: width 0.5s ease;
+    }
+
+    /* Nav */
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 4px 0 24px;
+    }
+
+    .chapter-group { margin-bottom: 0; }
+
+    .group-label {
+      font-size: 0.62rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--text-subtle);
+      padding: 16px 16px 4px;
+      user-select: none;
+    }
+
+    .chapter-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 5px 10px 5px 14px;
+      cursor: pointer;
+      border-radius: var(--r-sm);
+      margin: 1px 6px;
+      transition: background var(--ease);
+    }
+    .chapter-item:hover { background: var(--bg-hover); }
+    .chapter-item.active { background: var(--bg-active); }
+    .chapter-item.active .item-label { color: var(--text); font-weight: 500; }
+    .chapter-item.done .item-check { opacity: 1; }
+
+    .item-num {
+      font-size: 0.65rem; font-weight: 500;
+      color: var(--text-subtle);
+      flex-shrink: 0; width: 20px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .item-label {
+      font-size: 0.82rem; color: var(--text-muted);
+      line-height: 1.35; flex: 1;
+      transition: color var(--ease);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    .item-check {
+      width: 12px; height: 12px;
+      color: var(--green); opacity: 0; flex-shrink: 0;
+      transition: opacity var(--ease);
+    }
+
+    /* ── Main ──────────────────────────────────────────────────────── */
+    .main {
+      flex: 1;
+      height: 100vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      background: var(--bg);
+    }
+
+    /* ── Welcome ────────────────────────────────────────────────────── */
+    .welcome {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 32px;
+      gap: 12px;
+      text-align: center;
+    }
+
+    .welcome-badge {
+      width: 56px; height: 56px;
+      border-radius: 14px;
+      background: var(--bg-muted);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; margin-bottom: 6px;
+    }
+
+    .welcome h2 {
+      font-size: 1.5rem; font-weight: 700;
+      letter-spacing: -0.025em; color: var(--text);
+    }
+
+    .welcome p {
+      font-size: 0.88rem; color: var(--text-muted);
+      max-width: 380px; line-height: 1.7;
+    }
+
+    .welcome-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px; max-width: 520px; margin-top: 10px;
+    }
+
+    .welcome-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 14px 14px; text-align: left;
+      cursor: pointer;
+      transition: border-color var(--ease), background var(--ease);
+    }
+    .welcome-card:hover {
+      border-color: var(--border-mid);
+      background: var(--bg-muted);
+    }
+    .welcome-card-num {
+      font-size: 0.65rem; font-weight: 500;
+      color: var(--text-muted); margin-bottom: 4px;
+    }
+    .welcome-card-title {
+      font-size: 0.82rem; font-weight: 500;
+      color: var(--text); line-height: 1.3;
+    }
+
+    /* ── Chapter view ───────────────────────────────────────────────── */
+    .chapter-view { display: flex; flex-direction: column; }
+
+    /* ── Content column — centered, max-width ──────────────────────── */
+    .content-col {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* Video — constrained width, centered */
+    .video-section {
+      background: var(--bg-muted);
+      border-bottom: 1px solid var(--border);
+      padding: 24px 0 20px;
+      width: 100%; flex-shrink: 0;
+    }
+    .video-wrapper {
+      max-width: 640px;
+      margin: 0 auto;
+      aspect-ratio: 16/9;
+      background: #000;
+      border-radius: var(--r);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .video-wrapper video {
+      width: 100%; height: 100%;
+      display: block; outline: none;
+    }
+
+    /* Chapter header */
+    .chapter-header {
+      padding: 22px 0 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: flex-start;
+      justify-content: space-between; gap: 16px;
+      flex-shrink: 0;
+    }
+
+    .header-left { flex: 1; min-width: 0; }
+
+    .breadcrumb {
+      font-size: 0.68rem; color: var(--text-subtle);
+      font-weight: 500; margin-bottom: 6px;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .breadcrumb-sep { color: var(--border-mid); }
+
+    .header-title {
+      font-size: 1.45rem; font-weight: 700;
+      letter-spacing: -0.025em; color: var(--text);
+      line-height: 1.2;
+    }
+    .header-subtitle {
+      font-size: 0.845rem; color: var(--text-muted); margin-top: 3px;
+    }
+
+    .header-actions {
+      display: flex; flex-direction: column;
+      align-items: flex-end; gap: 8px; flex-shrink: 0;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 6px 12px; border-radius: var(--r-sm);
+      font-size: 0.78rem; font-weight: 500;
+      cursor: pointer; transition: background var(--ease);
+      font-family: var(--font-sans); border: 1px solid var(--border);
+      user-select: none; background: var(--bg); color: var(--text-muted);
+    }
+    .btn:hover { background: var(--bg-muted); color: var(--text); }
+    .btn:disabled { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
+
+    .btn-accent {
+      background: var(--text); border-color: var(--text);
+      color: #ffffff;
+    }
+    .btn-accent:hover { background: #4a4845; border-color: #4a4845; color: #fff; }
+
+    .btn-complete {
+      background: var(--bg); border-color: var(--border);
+      color: var(--text-muted);
+    }
+    .btn-complete:hover { background: var(--bg-muted); }
+    .btn-complete.is-done {
+      background: var(--green-bg); border-color: var(--green-border);
+      color: var(--green);
+    }
+    .btn-complete.is-done:hover { background: rgba(15,123,108,0.12); }
+
+    .btn-group { display: flex; gap: 6px; }
+
+    /* ── Study material ─────────────────────────────────────────────── */
+    .material-wrap { flex: 1; }
+
+    .material-loading {
+      padding: 48px 0;
+      display: flex; align-items: center; gap: 10px;
+      color: var(--text-muted); font-size: 0.875rem;
+    }
+
+    .spinner {
+      width: 14px; height: 14px;
+      border: 2px solid var(--border);
+      border-top-color: var(--text-muted);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .study-material {
+      padding: 28px 0 80px;
+    }
+
+    /* ── Notion-style markdown typography ───────────────────────────── */
+    .study-material h1 {
+      font-size: 1.75rem; font-weight: 700;
+      letter-spacing: -0.03em; color: var(--text);
+      margin-bottom: 20px; line-height: 1.2;
+    }
+    .study-material h2 {
+      font-size: 1.1rem; font-weight: 600;
+      color: var(--text);
+      margin-top: 36px; margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.3;
+    }
+    .study-material h3 {
+      font-size: 0.95rem; font-weight: 600;
+      color: var(--text);
+      margin-top: 24px; margin-bottom: 8px; line-height: 1.3;
+    }
+    .study-material h4 {
+      font-size: 0.75rem; font-weight: 600;
+      color: var(--text-muted); margin-top: 18px; margin-bottom: 6px;
+      text-transform: uppercase; letter-spacing: 0.07em;
+    }
+    .study-material p {
+      font-size: 0.915rem; line-height: 1.85;
+      color: var(--text); margin-bottom: 12px;
+    }
+    .study-material ul, .study-material ol {
+      margin-bottom: 12px; padding-left: 22px;
+    }
+    .study-material li {
+      font-size: 0.915rem; line-height: 1.8;
+      color: var(--text); margin-bottom: 3px;
+    }
+    .study-material li strong { color: var(--text); font-weight: 600; }
+
+    /* Inline code — Notion uses warm gray + red-brown text */
+    .study-material code {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      background: var(--bg-muted);
+      border: 1px solid var(--border);
+      padding: 1px 5px; border-radius: 3px;
+      color: #c7522a;
+    }
+    /* Code blocks */
+    .study-material pre {
+      background: var(--bg-muted) !important;
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 16px 18px;
+      overflow-x: auto;
+      margin-bottom: 16px;
+    }
+    .study-material pre code {
+      background: none; border: none; padding: 0;
+      color: inherit; font-size: 0.83rem; line-height: 1.65;
+    }
+    /* Notion-style callout/blockquote */
+    .study-material blockquote {
+      border-left: 3px solid var(--border-mid);
+      padding: 2px 16px;
+      margin: 16px 0;
+    }
+    .study-material blockquote p {
+      margin-bottom: 0; color: var(--text-muted); font-style: italic;
+    }
+    .study-material hr {
+      border: none; border-top: 1px solid var(--border); margin: 28px 0;
+    }
+    .study-material strong { font-weight: 600; color: var(--text); }
+    .study-material em { color: var(--text-muted); }
+
+    /* Tables — clean Notion style */
+    .study-material table {
+      width: 100%; border-collapse: collapse;
+      margin-bottom: 18px; font-size: 0.875rem;
+      border: 1px solid var(--border);
+    }
+    .study-material th {
+      background: var(--bg-muted);
+      border: 1px solid var(--border);
+      padding: 8px 12px; text-align: left;
+      font-size: 0.75rem; font-weight: 600;
+      color: var(--text-muted);
+    }
+    .study-material td {
+      border: 1px solid var(--border);
+      padding: 8px 12px; color: var(--text);
+      vertical-align: top; line-height: 1.6;
+    }
+    .study-material tr:nth-child(even) td { background: var(--bg-muted); }
+    .study-material tr:hover td { background: var(--bg-hover); }
+
+    .study-material a {
+      color: var(--accent); text-decoration: none;
+    }
+    .study-material a:hover { text-decoration: underline; }
+
+    /* ── Responsive ─────────────────────────────────────────────────── */
+    @media (max-width: 720px) {
+      :root { --sidebar-w: 56px; }
+      .group-label, .item-label, .item-check,
+      .brand-text, .progress { display: none; }
+      .brand-row { justify-content: center; }
+      .chapter-item { padding: 8px; justify-content: center; }
+      .item-num { width: auto; font-size: 0.72rem; }
+      .chapter-header { padding: 16px 20px; flex-direction: column; }
+      .study-material { padding: 24px 20px 56px; }
+    }
+  </style>
+</head>
+<body>
+<div id="app"></div>
+
+<script type="module">
+import { html }              from 'htm/preact';
+import { render }            from 'preact';
+import { useState, useEffect, useRef, useCallback } from 'preact/hooks';
+
+/* ── Chapter data ─────────────────────────────────────────────────── */
+const CHAPTERS = [
+  { id:"01", group:"Core Concepts",    title:"Neural Networks",       subtitle:"Nodes, Layers & Hidden States",
+    video:"scenes/media/videos/01_neural_networks/480p15/NeuralNetworksScene.mp4",
+    md:"study-material/01_neural_networks.md" },
+  { id:"02", group:"Core Concepts",    title:"Linear Layers",         subtitle:"Matrix Multiplication Explained",
+    video:"scenes/media/videos/02_linear_layers/480p15/LinearLayersScene.mp4",
+    md:"study-material/02_linear_layers.md" },
+  { id:"03", group:"Core Concepts",    title:"Activation Functions",  subtitle:"Breaking Linearity",
+    video:"scenes/media/videos/03_activation_functions/480p15/ActivationFunctionsScene.mp4",
+    md:"study-material/03_activation_functions.md" },
+  { id:"04", group:"Core Concepts",    title:"Tokenization",          subtitle:"Text → Numbers",
+    video:"scenes/media/videos/04_tokenization/480p15/TokenizationScene.mp4",
+    md:"study-material/04_tokenization.md" },
+  { id:"05", group:"Core Concepts",    title:"Embeddings",            subtitle:"Numbers That Carry Meaning",
+    video:"scenes/media/videos/05_embeddings/480p15/EmbeddingsScene.mp4",
+    md:"study-material/05_embeddings.md" },
+  { id:"06", group:"Core Concepts",    title:"Positional Encoding",   subtitle:"Where in the Sentence?",
+    video:"scenes/media/videos/06_positional_encoding/480p15/PositionalEncodingScene.mp4",
+    md:"study-material/06_positional_encoding.md" },
+  { id:"07", group:"Core Concepts",    title:"Transformer Architecture", subtitle:"The Big Picture",
+    video:"scenes/media/videos/07_transformer_architecture/480p15/TransformerArchitectureScene.mp4",
+    md:"study-material/07_transformer_architecture.md" },
+  { id:"08", group:"Core Concepts",    title:"Attention Mechanism",   subtitle:"Relating Words to Each Other",
+    video:"scenes/media/videos/08_attention_mechanism/480p15/AttentionMechanismScene.mp4",
+    md:"study-material/08_attention_mechanism.md" },
+  { id:"09", group:"Core Concepts",    title:"Multi-Head Attention",  subtitle:"Multiple Perspectives",
+    video:"scenes/media/videos/09_multi_head_attention/480p15/MultiHeadAttentionScene.mp4",
+    md:"study-material/09_multi_head_attention.md" },
+  { id:"10", group:"Core Concepts",    title:"Feed-Forward Networks", subtitle:"The Thinking Layers",
+    video:"scenes/media/videos/10_feed_forward_networks/480p15/FeedForwardScene.mp4",
+    md:"study-material/10_feed_forward_networks.md" },
+  { id:"11", group:"Core Concepts",    title:"Layer Normalization",   subtitle:"Keeping Values Stable",
+    video:"scenes/media/videos/11_layer_normalization/480p15/LayerNormScene.mp4",
+    md:"study-material/11_layer_normalization.md" },
+  { id:"12", group:"Core Concepts",    title:"KV Cache",              subtitle:"Memory for Efficiency",
+    video:"scenes/media/videos/12_kv_cache/480p15/KVCacheScene.mp4",
+    md:"study-material/12_kv_cache.md" },
+  { id:"13", group:"Core Concepts",    title:"Prefill & Decode",      subtitle:"Two Phases of Inference",
+    video:"scenes/media/videos/13_prefill_and_decode/480p15/PrefillDecodeScene.mp4",
+    md:"study-material/13_prefill_and_decode.md" },
+  { id:"14", group:"Core Concepts",    title:"Logits & Token Selection", subtitle:"Picking the Next Word",
+    video:"scenes/media/videos/14_logits_and_token_selection/480p15/LogitsTokenSelectionScene.mp4",
+    md:"study-material/14_logits_and_token_selection.md" },
+  { id:"15", group:"Core Concepts",    title:"Temperature & Sampling", subtitle:"Controlling Creativity",
+    video:"scenes/media/videos/15_temperature_sampling/480p15/TemperatureSamplingScene.mp4",
+    md:"study-material/15_temperature_top_k_top_p.md" },
+  { id:"16", group:"Core Concepts",    title:"Mixture of Experts",    subtitle:"Specialization at Scale",
+    video:"scenes/media/videos/16_mixture_of_experts/480p15/MixtureOfExpertsScene.mp4",
+    md:"study-material/16_mixture_of_experts.md" },
+  { id:"17", group:"Alignment & RLHF", title:"Training Loop & Loss",  subtitle:"How a Model Actually Learns",
+    video:"scenes/media/videos/17_training_loop/480p15/TrainingLoopScene.mp4",
+    md:"study-material/17_training_loop_and_loss.md" },
+  { id:"18", group:"Alignment & RLHF", title:"Supervised Fine-Tuning", subtitle:"From Base Model to Assistant",
+    video:"scenes/media/videos/18_supervised_fine_tuning/480p15/SFTScene.mp4",
+    md:"study-material/18_supervised_fine_tuning.md" },
+  { id:"19", group:"Alignment & RLHF", title:"Reward Models",         subtitle:"Teaching a Machine to Judge",
+    video:"scenes/media/videos/19_reward_models/480p15/RewardModelsScene.mp4",
+    md:"study-material/19_reward_models.md" },
+  { id:"20", group:"Alignment & RLHF", title:"KL Divergence",         subtitle:"Measuring Policy Drift",
+    video:"scenes/media/videos/20_kl_divergence/480p15/KLDivergenceScene.mp4",
+    md:"study-material/20_kl_divergence.md" },
+  { id:"21", group:"Alignment & RLHF", title:"RLHF Overview",         subtitle:"The Full Alignment Pipeline",
+    video:"scenes/media/videos/21_rlhf_overview/480p15/RLHFOverviewScene.mp4",
+    md:"study-material/21_rlhf_overview.md" },
+];
+
+const GROUPS = [...new Set(CHAPTERS.map(c => c.group))];
+
+/* ── localStorage helpers ─────────────────────────────────────────── */
+function loadCompleted() {
+  try { return new Set(JSON.parse(localStorage.getItem('llm_completed') || '[]')); }
+  catch { return new Set(); }
+}
+function saveCompleted(set) {
+  localStorage.setItem('llm_completed', JSON.stringify([...set]));
+}
+
+/* ── Icons (inline SVGs via htm) ──────────────────────────────────── */
+const IconCheck = () => html`
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+       stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="20 6 9 17 4 12"/>
+  </svg>`;
+
+const IconChevLeft = () => html`
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="15 18 9 12 15 6"/>
+  </svg>`;
+
+const IconChevRight = () => html`
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="9 18 15 12 9 6"/>
+  </svg>`;
+
+/* ── Sidebar ──────────────────────────────────────────────────────── */
+function Sidebar({ currentIdx, completed, onSelect }) {
+  const done  = completed.size;
+  const total = CHAPTERS.length;
+  const pct   = Math.round((done / total) * 100);
+
+  const activeRef = useRef(null);
+  useEffect(() => {
+    activeRef.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }, [currentIdx]);
+
+  return html`
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-row">
+          <div class="brand-icon">🧠</div>
+          <div class="brand-text">
+            <div class="brand-title">LLM Math</div>
+            <div class="brand-sub">Visual Guide</div>
+          </div>
+        </div>
+        <div class="progress">
+          <div class="progress-row">
+            <span class="progress-title">Progress</span>
+            <span class="progress-count">${done} / ${total}</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" style=${{ width: pct + '%' }}></div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        ${GROUPS.map(group => html`
+          <div class="chapter-group" key=${group}>
+            <div class="group-label">${group}</div>
+            ${CHAPTERS.filter(c => c.group === group).map(ch => {
+              const idx   = CHAPTERS.indexOf(ch);
+              const isAct = idx === currentIdx;
+              const isDone = completed.has(ch.id);
+              return html`
+                <div
+                  key=${ch.id}
+                  class=${'chapter-item' + (isAct ? ' active' : '') + (isDone ? ' done' : '')}
+                  onClick=${() => onSelect(idx)}
+                  ref=${isAct ? activeRef : null}
+                  title=${ch.title}
+                >
+                  <div class="item-num">${ch.id}</div>
+                  <div class="item-label">${ch.title}</div>
+                  <${IconCheck} class="item-check" />
+                </div>`;
+            })}
+          </div>
+        `)}
+      </nav>
+    </aside>`;
+}
+
+/* ── Welcome screen ───────────────────────────────────────────────── */
+const FEATURED = [0, 3, 7, 11, 16, 20];
+
+function Welcome({ onSelect }) {
+  return html`
+    <div class="welcome">
+      <div class="welcome-badge">🎓</div>
+      <h2>Learn How LLMs Work</h2>
+      <p>
+        21 animated lessons covering the full stack — from neural networks to RLHF.
+        Each chapter has a Manim animation and deep-dive study material.
+      </p>
+      <div class="welcome-grid">
+        ${FEATURED.map(idx => {
+          const ch = CHAPTERS[idx];
+          return html`
+            <div class="welcome-card" key=${ch.id} onClick=${() => onSelect(idx)}>
+              <div class="welcome-card-num">Ch ${ch.id}</div>
+              <div class="welcome-card-title">${ch.title}</div>
+            </div>`;
+        })}
+      </div>
+    </div>`;
+}
+
+/* ── Study material ───────────────────────────────────────────────── */
+function StudyMaterial({ mdPath }) {
+  const [state, setState] = useState({ loading: true, html: '' });
+  const elRef = useRef(null);
+
+  useEffect(() => {
+    setState({ loading: true, html: '' });
+    fetch(mdPath)
+      .then(r => r.text())
+      .then(txt => {
+        setState({ loading: false, html: marked.parse(txt) });
+      })
+      .catch(() => {
+        setState({
+          loading: false,
+          html: '<p style="color:var(--text-muted);padding:16px 0">Could not load study material — serve the project via HTTP.</p>'
+        });
+      });
+  }, [mdPath]);
+
+  useEffect(() => {
+    if (!state.loading && elRef.current) {
+      elRef.current.querySelectorAll('pre code').forEach(block => hljs.highlightElement(block));
+    }
+  }, [state.loading, state.html]);
+
+  if (state.loading) return html`
+    <div class="material-loading">
+      <div class="spinner"></div>
+      Loading study material…
+    </div>`;
+
+  return html`
+    <div class="study-material" ref=${elRef}
+      dangerouslySetInnerHTML=${{ __html: state.html }}
+    />`;
+}
+
+/* ── Chapter view ─────────────────────────────────────────────────── */
+function ChapterView({ idx, completed, onToggleComplete, onNavigate }) {
+  const ch    = CHAPTERS[idx];
+  const isDone = completed.has(ch.id);
+  const mainRef = useRef(null);
+
+  // Scroll top on chapter change
+  useEffect(() => {
+    document.querySelector('.main')?.scrollTo({ top: 0, behavior: 'instant' });
+  }, [idx]);
+
+  // Reload video source on change
+  const videoRef = useRef(null);
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load();
+    }
+  }, [ch.video]);
+
+  return html`
+    <div class="chapter-view">
+
+      <div class="video-section">
+        <div class="content-col">
+          <div class="video-wrapper">
+            <video ref=${videoRef} controls preload="metadata">
+              <source src=${ch.video} type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-col">
+        <div class="chapter-header">
+          <div class="header-left">
+            <div class="breadcrumb">
+              <span>${ch.group}</span>
+              <span class="breadcrumb-sep">/</span>
+              <span>Chapter ${ch.id}</span>
+            </div>
+            <div class="header-title">${ch.title}</div>
+            <div class="header-subtitle">${ch.subtitle}</div>
+          </div>
+
+          <div class="header-actions">
+            <button
+              class=${'btn btn-complete' + (isDone ? ' is-done' : '')}
+              onClick=${onToggleComplete}
+            >
+              <${IconCheck} />
+              ${isDone ? 'Completed ✓' : 'Mark Complete'}
+            </button>
+            <div class="btn-group">
+              <button class="btn" onClick=${() => onNavigate(-1)} disabled=${idx === 0}>
+                <${IconChevLeft} /> Prev
+              </button>
+              <button class="btn btn-accent" onClick=${() => onNavigate(1)} disabled=${idx === CHAPTERS.length - 1}>
+                Next <${IconChevRight} />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="material-wrap">
+          <${StudyMaterial} mdPath=${ch.md} key=${ch.md} />
+        </div>
+      </div>
+
+    </div>`;
+}
+
+/* ── App root ─────────────────────────────────────────────────────── */
+function App() {
+  const [currentIdx, setCurrentIdx] = useState(null);
+  const [completed,  setCompleted]  = useState(() => loadCompleted());
+
+  // Restore from URL hash
+  useEffect(() => {
+    const hash  = window.location.hash;
+    const match = hash.match(/#chapter-(\d+)/);
+    if (match) {
+      const id  = match[1].padStart(2, '0');
+      const idx = CHAPTERS.findIndex(c => c.id === id);
+      if (idx !== -1) setCurrentIdx(idx);
+    }
+  }, []);
+
+  const selectChapter = useCallback((idx) => {
+    setCurrentIdx(idx);
+    history.replaceState(null, '', `#chapter-${CHAPTERS[idx].id}`);
+  }, []);
+
+  const navigateChapter = useCallback((dir) => {
+    setCurrentIdx(prev => {
+      if (prev === null) return 0;
+      const next = prev + dir;
+      if (next < 0 || next >= CHAPTERS.length) return prev;
+      history.replaceState(null, '', `#chapter-${CHAPTERS[next].id}`);
+      return next;
+    });
+  }, []);
+
+  const toggleComplete = useCallback(() => {
+    if (currentIdx === null) return;
+    const id = CHAPTERS[currentIdx].id;
+    setCompleted(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) { next.delete(id); }
+      else {
+        next.add(id);
+        // Auto-advance after short delay
+        if (currentIdx < CHAPTERS.length - 1) {
+          setTimeout(() => navigateChapter(1), 700);
+        }
+      }
+      saveCompleted(next);
+      return next;
+    });
+  }, [currentIdx, navigateChapter]);
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigateChapter(1);
+      if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   navigateChapter(-1);
+      if (e.key === 'c' || e.key === 'C') toggleComplete();
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [navigateChapter, toggleComplete]);
+
+  return html`
+    <div class="layout">
+      <${Sidebar}
+        currentIdx=${currentIdx}
+        completed=${completed}
+        onSelect=${selectChapter}
+      />
+      <main class="main">
+        ${currentIdx === null
+          ? html`<${Welcome} onSelect=${selectChapter} />`
+          : html`<${ChapterView}
+              idx=${currentIdx}
+              completed=${completed}
+              onToggleComplete=${toggleComplete}
+              onNavigate=${navigateChapter}
+            />`
+        }
+      </main>
+    </div>`;
+}
+
+/* ── marked config ────────────────────────────────────────────────── */
+marked.setOptions({ breaks: true, gfm: true });
+
+/* ── Mount ────────────────────────────────────────────────────────── */
+render(html`<${App} />`, document.getElementById('app'));
+</script>
+</body>
+</html>
