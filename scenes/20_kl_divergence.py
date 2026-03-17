@@ -257,7 +257,7 @@ class KLDivergenceScene(LLMScene):
         stage_boxes = VGroup()
         for lbl, col, note in stages:
             b = rounded_box(3.0, 1.0, fill_color=str(col) + "22",
-                            stroke_color=col, label=lbl, label_color=col)
+                            stroke_color=col, label=lbl, label_color=WHITE)
             n = label_text(note, color=GREY_LIGHT)
             n.next_to(b, DOWN, buff=0.2)
             stage_boxes.add(VGroup(b, n))
@@ -280,7 +280,7 @@ class KLDivergenceScene(LLMScene):
         kl_solution = rounded_box(5.5, 0.65, fill_color=GREEN_DARK,
                                   stroke_color=GREEN_MED,
                                   label="KL penalty prevents Stage 3 — keeps model in useful range",
-                                  label_color=GREEN_MED)
+                                  label_color=WHITE)
         kl_solution.to_edge(DOWN, buff=0.5)
         self.play(FadeIn(kl_solution), run_time=0.5)
         self.wait(1.5)
@@ -326,9 +326,9 @@ class KLDivergenceScene(LLMScene):
             rounded_box(2.2, 0.75, fill_color=str(BLUE_MED) + "22",
                         stroke_color=BLUE_MED, label="SFT\nmodel", label_color=BLUE_LIGHT),
             rounded_box(2.2, 0.75, fill_color=str(ORANGE_MED) + "22",
-                        stroke_color=ORANGE_MED, label="Reward\nModel", label_color=ORANGE_MED),
+                        stroke_color=ORANGE_MED, label="Reward\nModel", label_color=WHITE),
             rounded_box(2.2, 0.75, fill_color=str(PURPLE_MED) + "22",
-                        stroke_color=PURPLE_MED, label="PPO +\nKL penalty", label_color=PURPLE_MED),
+                        stroke_color=PURPLE_MED, label="PPO +\nKL penalty", label_color=WHITE),
             rounded_box(2.2, 0.75, fill_color=GREEN_DARK,
                         stroke_color=GREEN_MED, label="Aligned\nLLM", label_color=GREEN_LIGHT),
         )

@@ -216,7 +216,7 @@ class LayerNormScene(LLMScene):
             b = rounded_box(0.7, 0.55,
                             fill_color=str(col) + "33",
                             stroke_color=col,
-                            label=str(v), label_color=col)
+                            label=str(v), label_color=WHITE)
             raw_boxes.add(b)
         raw_boxes.arrange(RIGHT, buff=0.15)
         raw_label = label_text("Input: [3, 7, 2, 9, 4]  mean = 5.0", color=WHITE)
@@ -232,7 +232,7 @@ class LayerNormScene(LLMScene):
             b = rounded_box(0.7, 0.55,
                             fill_color=str(col) + "33",
                             stroke_color=col,
-                            label=str(v), label_color=col)
+                            label=str(v), label_color=WHITE)
             cent_boxes.add(b)
         cent_boxes.arrange(RIGHT, buff=0.15)
         cent_label = label_text("Subtract mean: [-2, 2, -3, 4, -1]", color=WHITE)
@@ -248,7 +248,7 @@ class LayerNormScene(LLMScene):
             b = rounded_box(0.85, 0.55,
                             fill_color=str(col) + "33",
                             stroke_color=col,
-                            label=f"{v:.2f}", label_color=col)
+                            label=f"{v:.2f}", label_color=WHITE)
             norm_boxes.add(b)
         norm_boxes.arrange(RIGHT, buff=0.15)
         norm_label = label_text("Divide by std (2.61): values near +/-1", color=GREEN_MED)
@@ -345,7 +345,7 @@ class LayerNormScene(LLMScene):
             b = rounded_box(2.0, 0.9,
                             fill_color=str(col) + "22",
                             stroke_color=col,
-                            label=lbl, label_color=col)
+                            label=lbl, label_color=WHITE)
             pipe_boxes.add(b)
 
         pipe_boxes.arrange(RIGHT, buff=0.5)

@@ -32,7 +32,7 @@ class GRPOScene(LLMScene):
         model_boxes = VGroup()
         for lbl, col, note in ppo_models:
             b = rounded_box(2.3, 0.85, fill_color=str(col) + "22",
-                            stroke_color=col, label=lbl, label_color=col)
+                            stroke_color=col, label=lbl, label_color=WHITE)
             n = label_text(note, color=GREY_LIGHT)
             n.next_to(b, DOWN, buff=0.18)
             model_boxes.add(VGroup(b, n))
@@ -71,7 +71,7 @@ class GRPOScene(LLMScene):
         ppo_box = rounded_box(4.8, 1.6, fill_color=str(RED_MED) + "22",
                               stroke_color=RED_MED,
                               label="PPO approach\n\nCritic estimates V(state)\nAdvantage = reward - V(state)\nRequires a learned network",
-                              label_color=RED_MED)
+                              label_color=WHITE)
         ppo_box.shift(LEFT * 3.2 + DOWN * 0.1)
 
         grpo_box = rounded_box(4.8, 1.6, fill_color=GREEN_DARK,
@@ -124,7 +124,7 @@ class GRPOScene(LLMScene):
         for lbl, col, content in response_labels:
             b = rounded_box(1.35, 0.72, fill_color=str(col) + "22",
                             stroke_color=col, label=lbl + "\n" + content,
-                            label_color=col)
+                            label_color=WHITE)
             response_boxes.add(b)
 
         response_boxes.arrange(RIGHT, buff=0.22)
@@ -299,13 +299,13 @@ class GRPOScene(LLMScene):
         prompt_groups = VGroup()
         for (p_lbl, p_col, resp_lbls, resp_cols, mean_lbl) in prompt_data:
             p_box = rounded_box(4.0, 0.75, stroke_color=p_col,
-                                label=p_lbl, label_color=p_col)
+                                label=p_lbl, label_color=WHITE)
 
             resp_boxes_sub = VGroup()
             for r_lbl, r_col in zip(resp_lbls, resp_cols):
                 rb = rounded_box(1.1, 0.75, fill_color=str(r_col) + "22",
                                  stroke_color=r_col,
-                                 label=r_lbl, label_color=r_col)
+                                 label=r_lbl, label_color=WHITE)
                 resp_boxes_sub.add(rb)
             resp_boxes_sub.arrange(RIGHT, buff=0.2)
 
@@ -348,7 +348,7 @@ class GRPOScene(LLMScene):
         clip_boxes = VGroup()
         for lbl, col, note in clip_steps:
             b = rounded_box(2.1, 0.85, fill_color=str(col) + "22",
-                            stroke_color=col, label=lbl, label_color=col)
+                            stroke_color=col, label=lbl, label_color=WHITE)
             n = label_text(note, color=GREY_LIGHT)
             n.next_to(b, DOWN, buff=0.18)
             clip_boxes.add(VGroup(b, n))
@@ -386,45 +386,47 @@ class GRPOScene(LLMScene):
         self.play(Write(table_title), run_time=0.7)
 
         table_rows = [
-            ("Critic / value model",  "Required — same size\nas policy",  "Not needed",),
-            ("Advantage estimate",    "Per-token (critic\nforward pass)",  "Per-response\n(group z-score)",),
-            ("Models in memory",      "4 models",                          "3 models",),
-            ("Clipping mechanism",    "Yes  (epsilon = 0.2)",              "Yes  (epsilon = 0.2)",),
-            ("KL penalty",            "Yes  (vs ref policy)",              "Yes  (vs ref policy)",),
-            ("Stability risk",        "Critic collapse\n+ reward hacking", "Reward hacking\n+ small-G noise",),
+            ("Critic / value model",  "Required — same\nsize as policy",  "Not needed"),
+            ("Advantage estimate",    "Per-token\n(critic pass)",          "Per-response\n(group z-score)"),
+            ("Models in memory",      "4 models",                          "3 models"),
+            ("Clipping mechanism",    "Yes (eps = 0.2)",                   "Yes (eps = 0.2)"),
+            ("KL penalty",            "Yes (vs ref)",                      "Yes (vs ref)"),
+            ("Stability risk",        "Critic collapse",                   "Small-G noise"),
         ]
 
-        header_row = VGroup(
-            body_text("Dimension",    color=GREY_LIGHT),
-            body_text("PPO",          color=RED_MED),
-            body_text("GRPO",         color=GREEN_MED),
-        )
-        header_row.arrange(RIGHT, buff=0.0)
-        header_row[0].set_width(4.2)
-        header_row[1].set_width(4.0)
-        header_row[2].set_width(4.0)
-        header_row.move_to(ORIGIN + UP * 2.1)
+        # Fixed column x-positions — never use set_width() on text (scales up short words)
+        COL_X = [-4.8, 0.4, 5.0]
+        ROW_START_Y = 2.0
+        ROW_STEP = -0.65
+
+        h_dim  = body_text("Dimension", color=WHITE)
+        h_ppo  = body_text("PPO",       color=RED_MED)
+        h_grpo = body_text("GRPO",      color=GREEN_MED)
+        h_dim.move_to([COL_X[0], ROW_START_Y, 0])
+        h_ppo.move_to([COL_X[1], ROW_START_Y, 0])
+        h_grpo.move_to([COL_X[2], ROW_START_Y, 0])
+        header_row = VGroup(h_dim, h_ppo, h_grpo)
 
         self.play(FadeIn(header_row), run_time=0.4)
 
         sep = Line(LEFT * 6.2, RIGHT * 6.2, color=GREY_MED, stroke_width=1)
-        sep.next_to(header_row, DOWN, buff=0.12)
+        sep.move_to([0, ROW_START_Y - 0.45, 0])
         self.play(Create(sep), run_time=0.3)
 
         data_rows = VGroup()
-        for dim, ppo_val, grpo_val in table_rows:
+        for i, (dim, ppo_val, grpo_val) in enumerate(table_rows):
+            y = ROW_START_Y + (i + 1) * ROW_STEP
             d_txt   = label_text(dim,      color=GREY_LIGHT)
-            ppo_txt = label_text(ppo_val,  color=RED_MED)
-            grp_txt = label_text(grpo_val, color=GREEN_MED)
-            d_txt.set_width(4.0)
-            ppo_txt.set_width(4.0)
-            grp_txt.set_width(4.0)
-            row = VGroup(d_txt, ppo_txt, grp_txt)
-            row.arrange(RIGHT, buff=0.2)
-            data_rows.add(row)
-
-        data_rows.arrange(DOWN, aligned_edge=LEFT, buff=0.22)
-        data_rows.next_to(sep, DOWN, buff=0.2)
+            ppo_txt = label_text(ppo_val,  color=WHITE)
+            grp_txt = label_text(grpo_val, color=GREEN_LIGHT)
+            d_txt.move_to([COL_X[0], y, 0])
+            ppo_txt.move_to([COL_X[1], y, 0])
+            grp_txt.move_to([COL_X[2], y, 0])
+            # Guard max width per column
+            for t, max_w in [(d_txt, 4.0), (ppo_txt, 3.8), (grp_txt, 3.8)]:
+                if t.width > max_w:
+                    t.scale_to_fit_width(max_w)
+            data_rows.add(VGroup(d_txt, ppo_txt, grp_txt))
 
         self.play(LaggedStart(*[FadeIn(r) for r in data_rows], lag_ratio=0.15),
                   run_time=1.3)
@@ -483,13 +485,13 @@ class GRPOScene(LLMScene):
         short_box = rounded_box(3.5, 0.85, fill_color=str(GREEN_MED) + "22",
                                 stroke_color=GREEN_MED,
                                 label="Short response\n50 tokens,  advantage = +1.0",
-                                label_color=GREEN_MED)
+                                label_color=WHITE)
         short_box.shift(LEFT * 3.2 + UP * 1.0)
 
         long_box = rounded_box(3.5, 0.85, fill_color=str(ORANGE_MED) + "22",
                                stroke_color=ORANGE_MED,
                                label="Long response\n500 tokens,  advantage = +1.0",
-                               label_color=ORANGE_MED)
+                               label_color=WHITE)
         long_box.shift(RIGHT * 3.2 + UP * 1.0)
 
         self.play(FadeIn(short_box), FadeIn(long_box), run_time=0.7)
@@ -497,13 +499,13 @@ class GRPOScene(LLMScene):
         grad_short = rounded_box(3.5, 0.75, fill_color=str(GREEN_MED) + "11",
                                  stroke_color=GREEN_MED,
                                  label="Gradient contribution\n50 token-level updates",
-                                 label_color=GREEN_MED)
+                                 label_color=WHITE)
         grad_short.shift(LEFT * 3.2 + DOWN * 0.5)
 
         grad_long = rounded_box(3.5, 0.75, fill_color=str(ORANGE_MED) + "33",
                                 stroke_color=ORANGE_MED,
                                 label="Gradient contribution\n500 token-level updates",
-                                label_color=ORANGE_MED)
+                                label_color=WHITE)
         grad_long.shift(RIGHT * 3.2 + DOWN * 0.5)
 
         arr_s = Arrow(short_box.get_bottom(), grad_short.get_top(), buff=0.05,

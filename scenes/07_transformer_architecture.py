@@ -30,7 +30,7 @@ class TransformerArchitectureScene(LLMScene):
             box = rounded_box(1.5, 1.0,
                               fill_color=str(col) + "22",
                               stroke_color=col,
-                              label=label, label_color=col)
+                              label=label, label_color=WHITE)
             sub_txt = label_text(sub, color=GREY_LIGHT)
             sub_txt.next_to(box, DOWN, buff=0.15)
             boxes.add(VGroup(box, sub_txt))
@@ -85,7 +85,7 @@ class TransformerArchitectureScene(LLMScene):
             b = rounded_box(3.2, 0.7,
                             fill_color=str(col) + "22",
                             stroke_color=col,
-                            label=lbl, label_color=col)
+                            label=lbl, label_color=WHITE)
             stack.add(b)
 
         stack.arrange(DOWN, buff=0.22)
@@ -198,7 +198,7 @@ class TransformerArchitectureScene(LLMScene):
             b = rounded_box(3.0, 0.65,
                             fill_color=str(col) + "22",
                             stroke_color=col,
-                            label=lbl, label_color=col)
+                            label=lbl, label_color=WHITE)
             n = label_text(note, color=GREY_MED)
             detail_stack.add(b)
             step_notes.add(n)
@@ -226,9 +226,9 @@ class TransformerArchitectureScene(LLMScene):
                                   stroke_color=GREY_MED, label="Input  x", label_color=GREY_LIGHT)
         block_box2 = rounded_box(2.2, 0.75, fill_color=str(BLUE_MED) + "22",
                                   stroke_color=BLUE_MED, label="Layer (e.g. Attention)",
-                                  label_color=BLUE_MED)
+                                  label_color=WHITE)
         add_box    = rounded_box(2.2, 0.75, fill_color=str(GREEN_MED) + "22",
-                                  stroke_color=GREEN_MED, label="Add  (+)", label_color=GREEN_MED)
+                                  stroke_color=GREEN_MED, label="Add  (+)", label_color=WHITE)
         output_box = rounded_box(2.2, 0.75, fill_color=str(GREY_MED) + "22",
                                   stroke_color=GREY_MED, label="Output  x'", label_color=GREY_LIGHT)
 
@@ -330,7 +330,7 @@ class TransformerArchitectureScene(LLMScene):
             b = rounded_box(3.5, 0.8,
                             fill_color=str(col) + "22",
                             stroke_color=col,
-                            label=label, label_color=col)
+                            label=label, label_color=WHITE)
             n = label_text(note, color=WHITE)
             lg_stack.add(b)
             lg_notes.add(n)
@@ -371,7 +371,7 @@ class TransformerArchitectureScene(LLMScene):
         for s in post_steps:
             col = BLUE_MED if s == "Attention" else (GREEN_MED if s == "Add  +" else GREY_LIGHT)
             b = rounded_box(2.2, 0.6, fill_color=str(col) + "22",
-                            stroke_color=col, label=s, label_color=col)
+                            stroke_color=col, label=s, label_color=WHITE)
             post_stack.add(b)
         post_stack.arrange(DOWN, buff=0.25)
         post_stack.shift(LEFT * 3.5 + DOWN * 0.3)
@@ -385,7 +385,7 @@ class TransformerArchitectureScene(LLMScene):
         for s in pre_steps:
             col = GREY_LIGHT if s == "LayerNorm" else (BLUE_MED if s == "Attention" else GREEN_MED)
             b = rounded_box(2.2, 0.6, fill_color=str(col) + "22",
-                            stroke_color=col, label=s, label_color=col)
+                            stroke_color=col, label=s, label_color=WHITE)
             pre_stack.add(b)
         pre_stack.arrange(DOWN, buff=0.25)
         pre_stack.shift(RIGHT * 3.0 + DOWN * 0.3)

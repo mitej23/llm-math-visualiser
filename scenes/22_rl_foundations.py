@@ -30,7 +30,7 @@ class RLFoundationsScene(LLMScene):
         env_box = rounded_box(2.6, 1.0, fill_color=str(ORANGE_MED) + "22",
                               stroke_color=ORANGE_MED,
                               label="🌍 Environment\n(Reward Model)",
-                              label_color=ORANGE_MED)
+                              label_color=WHITE)
         env_box.move_to(RIGHT * 3.5 + DOWN * 0.3)
 
         # Action arrow: Agent → Environment (top arc)
@@ -149,7 +149,7 @@ class RLFoundationsScene(LLMScene):
         step_boxes = VGroup()
         for lbl, col, note in steps:
             b = rounded_box(2.8, 0.9, fill_color=str(col) + "22",
-                            stroke_color=col, label=lbl, label_color=col)
+                            stroke_color=col, label=lbl, label_color=WHITE)
             n = label_text(note, color=GREY_LIGHT)
             n.next_to(b, DOWN, buff=0.2)
             step_boxes.add(VGroup(b, n))
@@ -173,7 +173,7 @@ class RLFoundationsScene(LLMScene):
         sparse_note = rounded_box(10.0, 0.7, fill_color=str(RED_MED) + "22",
                                   stroke_color=RED_MED,
                                   label="⚠️  Sparse reward: the model receives ZERO feedback during token generation — only at the end",
-                                  label_color=RED_MED)
+                                  label_color=WHITE)
         sparse_note.to_edge(DOWN, buff=0.5)
         self.play(FadeIn(sparse_note), run_time=0.5)
         self.wait(1.5)
@@ -187,7 +187,7 @@ class RLFoundationsScene(LLMScene):
         j_box = rounded_box(11.0, 0.8, fill_color=str(YELLOW_MED) + "22",
                             stroke_color=YELLOW_MED,
                             label="J(θ)  =  Expected total reward across all prompts and responses",
-                            label_color=YELLOW_MED)
+                            label_color=WHITE)
         j_box.move_to(UP * 1.6)
         self.play(FadeIn(j_box), run_time=0.5)
 
@@ -201,7 +201,7 @@ class RLFoundationsScene(LLMScene):
         pg_boxes = VGroup()
         for lbl, col, note in steps_pg:
             b = rounded_box(2.5, 0.85, fill_color=str(col) + "22",
-                            stroke_color=col, label=lbl, label_color=col)
+                            stroke_color=col, label=lbl, label_color=WHITE)
             n = label_text(note, color=GREY_LIGHT)
             n.next_to(b, DOWN, buff=0.18)
             pg_boxes.add(VGroup(b, n))
@@ -243,7 +243,7 @@ class RLFoundationsScene(LLMScene):
         token_boxes = VGroup()
         for tok, col in zip(token_labels, token_colors):
             b = rounded_box(1.2, 0.65, fill_color=str(col) + "22",
-                            stroke_color=col, label=tok, label_color=col)
+                            stroke_color=col, label=tok, label_color=WHITE)
             token_boxes.add(b)
 
         token_boxes.arrange(RIGHT, buff=0.15)
@@ -284,7 +284,7 @@ class RLFoundationsScene(LLMScene):
         gamma_box = rounded_box(4.5, 0.8, fill_color=str(PURPLE_MED) + "22",
                                 stroke_color=PURPLE_MED,
                                 label="Discount factor  γ = 0.99",
-                                label_color=PURPLE_MED)
+                                label_color=WHITE)
         gamma_box.move_to(LEFT * 3.2 + DOWN * 1.5)
 
         gamma_why = label_text(
@@ -296,7 +296,7 @@ class RLFoundationsScene(LLMScene):
         return_note = rounded_box(4.5, 0.8, fill_color=str(YELLOW_MED) + "22",
                                   stroke_color=YELLOW_MED,
                                   label="G_t = r + 0.99r + 0.99²r + ...",
-                                  label_color=YELLOW_MED)
+                                  label_color=WHITE)
         return_note.move_to(RIGHT * 2.8 + DOWN * 1.5)
 
         self.play(FadeIn(gamma_box), FadeIn(gamma_why), run_time=0.5)
@@ -381,7 +381,7 @@ class RLFoundationsScene(LLMScene):
         rm_box = rounded_box(2.2, 0.85, fill_color=str(ORANGE_MED) + "22",
                              stroke_color=ORANGE_MED,
                              label="⚖️  Reward\nModel",
-                             label_color=ORANGE_MED)
+                             label_color=WHITE)
         rm_box.move_to(RIGHT * 4.2 + UP * 0.5)
 
         reward_scalar_box = rounded_box(2.2, 0.85, fill_color=GREEN_DARK,
@@ -393,7 +393,7 @@ class RLFoundationsScene(LLMScene):
         gradient_box = rounded_box(2.8, 0.8, fill_color=str(PURPLE_MED) + "22",
                                    stroke_color=PURPLE_MED,
                                    label="Gradient update\nΔθ via policy gradient",
-                                   label_color=PURPLE_MED)
+                                   label_color=WHITE)
         gradient_box.move_to(LEFT * 2.0 + DOWN * 1.6)
 
         e1 = Arrow(prompt_box.get_right(), llm_box.get_left(),

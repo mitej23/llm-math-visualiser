@@ -19,14 +19,14 @@ class MultiHeadAttentionScene(LLMScene):
         sh_box = rounded_box(3.5, 1.2,
                              fill_color=BLUE_DARK, stroke_color=BLUE_MED,
                              label="Single-Head Attention\n(one perspective)",
-                             label_color=BLUE_MED)
+                             label_color=WHITE)
         sh_box.shift(LEFT * 3)
 
         mh_label = body_text("Multi-Head Attention\n(many perspectives)", color=PURPLE_MED)
         heads_row = VGroup(*[
             rounded_box(0.8, 0.7,
                         fill_color=str(col) + "33", stroke_color=col,
-                        label=f"H{i+1}", label_color=col)
+                        label=f"H{i+1}", label_color=WHITE)
             for i, col in enumerate([
                 BLUE_MED, GREEN_MED, ORANGE_MED, RED_MED,
                 PURPLE_MED, YELLOW_MED, BLUE_LIGHT, GREEN_LIGHT,
@@ -98,7 +98,7 @@ class MultiHeadAttentionScene(LLMScene):
             b = rounded_box(w * 0.35 + 0.5, 0.8,
                             fill_color=str(col) + "22",
                             stroke_color=col,
-                            label=lbl, label_color=col)
+                            label=lbl, label_color=WHITE)
             step_boxes.add(b)
 
         step_boxes.arrange(RIGHT, buff=0.4)
@@ -155,7 +155,7 @@ class MultiHeadAttentionScene(LLMScene):
         for rel, col, rtype in relations:
             b = rounded_box(2.8, 0.65,
                             fill_color=str(col) + "22",
-                            stroke_color=col, label=rel, label_color=col)
+                            stroke_color=col, label=rel, label_color=WHITE)
             t = label_text(rtype, color=GREY_MED)
             t.next_to(b, RIGHT, buff=0.3)
             rel_boxes.add(VGroup(b, t))
@@ -226,7 +226,7 @@ class MultiHeadAttentionScene(LLMScene):
                                   fill_color=str(BLUE_MED) + "33",
                                   stroke_color=BLUE_MED,
                                   label="d_model = 512 dimensions",
-                                  label_color=BLUE_MED)
+                                  label_color=WHITE)
         dmodel_box.shift(UP * 2.0)
         self.play(FadeIn(dmodel_box), run_time=0.5)
 
@@ -238,7 +238,7 @@ class MultiHeadAttentionScene(LLMScene):
             b = rounded_box(1.1, 0.75,
                             fill_color=str(col) + "33",
                             stroke_color=col,
-                            label=f"H{i+1}\n64d", label_color=col)
+                            label=f"H{i+1}\n64d", label_color=WHITE)
             head_boxes_dim.add(b)
 
         head_boxes_dim.arrange(RIGHT, buff=0.12)
@@ -284,7 +284,7 @@ class MultiHeadAttentionScene(LLMScene):
             b = rounded_box(0.9, 0.65,
                             fill_color=str(col) + "33",
                             stroke_color=col,
-                            label=f"out{i+1}", label_color=col)
+                            label=f"out{i+1}", label_color=WHITE)
             h_out_boxes.add(b)
 
         h_out_boxes.arrange(RIGHT, buff=0.1)
@@ -294,14 +294,14 @@ class MultiHeadAttentionScene(LLMScene):
                                   fill_color=str(PURPLE_MED) + "22",
                                   stroke_color=PURPLE_MED,
                                   label="Concatenated: 512 dimensions",
-                                  label_color=PURPLE_MED)
+                                  label_color=WHITE)
         concat_box.shift(DOWN * 0.1)
 
         proj_box = rounded_box(4.0, 0.7,
                                fill_color=str(ORANGE_MED) + "22",
                                stroke_color=ORANGE_MED,
                                label="Linear Projection (W_O): 512 → 512",
-                               label_color=ORANGE_MED)
+                               label_color=WHITE)
         proj_box.shift(DOWN * 1.3)
 
         concat_arrows = VGroup()
@@ -392,19 +392,19 @@ class MultiHeadAttentionScene(LLMScene):
         mha_q_boxes = VGroup(*[
             rounded_box(0.55, 0.5,
                         fill_color=str(BLUE_MED) + "33", stroke_color=BLUE_MED,
-                        label=f"Q{i+1}", label_color=BLUE_MED)
+                        label=f"Q{i+1}", label_color=WHITE)
             for i in range(4)
         ])
         mha_k_boxes = VGroup(*[
             rounded_box(0.55, 0.5,
                         fill_color=str(GREEN_MED) + "33", stroke_color=GREEN_MED,
-                        label=f"K{i+1}", label_color=GREEN_MED)
+                        label=f"K{i+1}", label_color=WHITE)
             for i in range(4)
         ])
         mha_v_boxes = VGroup(*[
             rounded_box(0.55, 0.5,
                         fill_color=str(ORANGE_MED) + "33", stroke_color=ORANGE_MED,
-                        label=f"V{i+1}", label_color=ORANGE_MED)
+                        label=f"V{i+1}", label_color=WHITE)
             for i in range(4)
         ])
 
@@ -429,19 +429,19 @@ class MultiHeadAttentionScene(LLMScene):
         gqa_q_boxes = VGroup(*[
             rounded_box(0.55, 0.5,
                         fill_color=str(BLUE_MED) + "33", stroke_color=BLUE_MED,
-                        label=f"Q{i+1}", label_color=BLUE_MED)
+                        label=f"Q{i+1}", label_color=WHITE)
             for i in range(4)
         ])
         gqa_k_boxes = VGroup(*[
             rounded_box(0.55, 0.5,
                         fill_color=str(GREEN_MED) + "33", stroke_color=GREEN_MED,
-                        label=f"K{i+1}", label_color=GREEN_MED)
+                        label=f"K{i+1}", label_color=WHITE)
             for i in range(2)
         ])
         gqa_v_boxes = VGroup(*[
             rounded_box(0.55, 0.5,
                         fill_color=str(ORANGE_MED) + "33", stroke_color=ORANGE_MED,
-                        label=f"V{i+1}", label_color=ORANGE_MED)
+                        label=f"V{i+1}", label_color=WHITE)
             for i in range(2)
         ])
 

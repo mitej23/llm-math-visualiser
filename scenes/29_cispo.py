@@ -41,7 +41,7 @@ class CISPOScene(LLMScene):
             b = rounded_box(2.6, 1.0,
                             fill_color=col + "22",
                             stroke_color=col,
-                            label=lbl, label_color=col)
+                            label=lbl, label_color=WHITE)
             step_boxes.add(b)
         step_boxes.arrange(RIGHT, buff=0.55)
         step_boxes.move_to(ORIGIN + UP * 0.4)
@@ -88,13 +88,13 @@ class CISPOScene(LLMScene):
         new_box = rounded_box(3.2, 1.2,
                               fill_color=GREEN_MED + "22", stroke_color=GREEN_MED,
                               label="Current policy  (learner)\ncomputes log_prob_new",
-                              label_color=GREEN_MED)
+                              label_color=WHITE)
         new_box.shift(RIGHT * 3.5 + UP * 0.6)
 
         ratio_box = rounded_box(3.8, 0.9,
                                 fill_color=ORANGE_MED + "22", stroke_color=ORANGE_MED,
                                 label="IS ratio  =  prob_new / prob_old",
-                                label_color=ORANGE_MED)
+                                label_color=WHITE)
         ratio_box.move_to(ORIGIN + DOWN * 0.7)
 
         a1 = Arrow(old_box.get_right(), ratio_box.get_left(), buff=0.05,
@@ -169,13 +169,13 @@ class CISPOScene(LLMScene):
                               label_color=GREEN_LIGHT)
         ratio_node = rounded_box(2.6, 0.75, fill_color=ORANGE_MED + "22",
                                  stroke_color=ORANGE_MED, label="IS ratio",
-                                 label_color=ORANGE_MED)
+                                 label_color=WHITE)
         sg_node = rounded_box(3.0, 0.75, fill_color=RED_MED + "22",
                               stroke_color=RED_MED, label="stop_gradient( ratio )",
-                              label_color=RED_MED)
+                              label_color=WHITE)
         loss_node = rounded_box(2.4, 0.75, fill_color=PURPLE_MED + "22",
                                 stroke_color=PURPLE_MED, label="clipped loss",
-                                label_color=PURPLE_MED)
+                                label_color=WHITE)
 
         old_log.move_to(LEFT * 5.2 + UP * 1.2)
         new_log.move_to(LEFT * 2.5 + UP * 1.2)

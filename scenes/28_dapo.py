@@ -192,13 +192,13 @@ class DAPOScene(LLMScene):
         ep_short = rounded_box(3.0, 0.55, fill_color=str(RED_MED) + "22",
                                stroke_color=RED_MED,
                                label="Short response  (80 tokens)",
-                               label_color=RED_MED)
+                               label_color=WHITE)
         ep_short.move_to(LEFT * 3.5 + UP * 0.9)
 
         ep_long = rounded_box(3.0, 0.55, fill_color=str(RED_MED) + "33",
                               stroke_color=RED_MED,
                               label="Long response  (800 tokens)",
-                              label_color=RED_MED)
+                              label_color=WHITE)
         ep_long.move_to(LEFT * 3.5 + UP * 0.1)
 
         ep_denom = label_text("Denominator: 2 episodes  →  long response\n"
@@ -213,13 +213,13 @@ class DAPOScene(LLMScene):
         tok_short = rounded_box(3.0, 0.55, fill_color=str(GREEN_MED) + "22",
                                 stroke_color=GREEN_MED,
                                 label="Short response  (80 tokens)",
-                                label_color=GREEN_MED)
+                                label_color=WHITE)
         tok_short.move_to(RIGHT * 3.5 + UP * 0.9)
 
         tok_long = rounded_box(3.0, 0.55, fill_color=str(GREEN_MED) + "33",
                                stroke_color=GREEN_MED,
                                label="Long response  (800 tokens)",
-                               label_color=GREEN_MED)
+                               label_color=WHITE)
         tok_long.move_to(RIGHT * 3.5 + UP * 0.1)
 
         tok_denom = label_text("Denominator: 880 tokens  →  each token\n"
@@ -343,7 +343,7 @@ class DAPOScene(LLMScene):
                                fill_color=str(RED_MED) + "22",
                                stroke_color=RED_MED,
                                label="All 8 responses WRONG",
-                               label_color=RED_MED)
+                               label_color=WHITE)
         hard_box.move_to(LEFT * 2.5 + DOWN * 0.2)
         hard_tag = label_text("Too hard — skip", color=RED_MED)
         hard_tag.next_to(hard_box, RIGHT, buff=0.4)
@@ -368,7 +368,7 @@ class DAPOScene(LLMScene):
                                  fill_color=str(YELLOW_MED) + "22",
                                  stroke_color=YELLOW_MED,
                                  label="Filter\nStep",
-                                 label_color=YELLOW_MED)
+                                 label_color=WHITE)
         filter_box.move_to(RIGHT * 4.0 + DOWN * 0.2)
 
         arr_easy = Arrow(easy_box.get_right(),
@@ -417,21 +417,21 @@ class DAPOScene(LLMScene):
                                 fill_color=str(RED_MED) + "22",
                                 stroke_color=RED_MED,
                                 label="Early training\nAll hard prompts = wrong\nAll easy prompts = right",
-                                label_color=RED_MED)
+                                label_color=WHITE)
         early_box.move_to(LEFT * 4.0 + UP * 0.5)
 
         mid_box = rounded_box(3.4, 1.1,
                               fill_color=str(YELLOW_MED) + "22",
                               stroke_color=YELLOW_MED,
                               label="Mid training\nMedium prompts now learnable\nHard prompts still wrong",
-                              label_color=YELLOW_MED)
+                              label_color=WHITE)
         mid_box.move_to(ORIGIN + UP * 0.5)
 
         late_box = rounded_box(3.4, 1.1,
                                fill_color=str(GREEN_MED) + "22",
                                stroke_color=GREEN_MED,
                                label="Late training\nHard prompts become learnable\nEasy ones all correct = filtered",
-                               label_color=GREEN_MED)
+                               label_color=WHITE)
         late_box.move_to(RIGHT * 4.0 + UP * 0.5)
 
         arr_em = Arrow(early_box.get_right(), mid_box.get_left(),
@@ -477,7 +477,7 @@ class DAPOScene(LLMScene):
             b = rounded_box(1.55, 0.85,
                             fill_color=str(col) + "22",
                             stroke_color=col,
-                            label=lbl, label_color=col)
+                            label=lbl, label_color=WHITE)
             boxes.add(b)
 
         boxes.arrange(RIGHT, buff=0.28)
@@ -663,7 +663,7 @@ class DAPOScene(LLMScene):
             name_box = rounded_box(2.8, 0.55,
                                    fill_color=str(col) + "22",
                                    stroke_color=col,
-                                   label=name, label_color=col)
+                                   label=name, label_color=WHITE)
             desc_txt = label_text(desc, color=WHITE)
             desc_txt.next_to(name_box, RIGHT, buff=0.4)
             sum_rows.add(VGroup(name_box, desc_txt))

@@ -91,14 +91,23 @@ def right_arrow(start: np.ndarray, end: np.ndarray, color=WHITE) -> Arrow:
 # ─── Box helpers ───────────────────────────────────────────────────────────────
 def rounded_box(width: float, height: float,
                 fill_color=BLUE_DARK, stroke_color=BLUE_MED,
-                label: str = "", label_color=WHITE) -> VGroup:
+                label: str = "", label_color=WHITE,
+                label_font_size: int = 28,
+                fill_opacity: float = 0.9) -> VGroup:
     rect = RoundedRectangle(width=width, height=height,
                             corner_radius=0.15,
-                            fill_color=fill_color, fill_opacity=0.9,
+                            fill_color=fill_color, fill_opacity=fill_opacity,
                             stroke_color=stroke_color, stroke_width=2)
     group = VGroup(rect)
     if label:
-        txt = body_text(label, color=label_color)
+        txt = Text(label, color=label_color, font_size=label_font_size)
+        # Scale down if text overflows — always guard against overflow
+        max_w = width * 0.88
+        max_h = height * 0.80
+        if txt.width > max_w:
+            txt.scale_to_fit_width(max_w)
+        if txt.height > max_h:
+            txt.scale_to_fit_height(max_h)
         txt.move_to(rect)
         group.add(txt)
     return group

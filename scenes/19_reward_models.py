@@ -38,7 +38,7 @@ class RewardModelsScene(LLMScene):
 
         human_pref = rounded_box(3.0, 0.65, fill_color=str(YELLOW_MED) + "33",
                                  stroke_color=YELLOW_MED,
-                                 label="Human: A > B  ✅", label_color=YELLOW_MED)
+                                 label="Human: A > B  ✅", label_color=WHITE)
         human_pref.shift(DOWN * 1.8)
 
         self.play(FadeIn(resp_a), FadeIn(resp_b), run_time=0.7)
@@ -55,16 +55,16 @@ class RewardModelsScene(LLMScene):
                                  label="[prompt + response]", label_color=BLUE_LIGHT)
         trans_box  = rounded_box(3.0, 0.9,  fill_color=str(PURPLE_MED) + "22",
                                  stroke_color=PURPLE_MED,
-                                 label="Transformer layers\n(same as base LLM)", label_color=PURPLE_MED)
+                                 label="Transformer layers\n(same as base LLM)", label_color=WHITE)
         last_tok   = rounded_box(2.5, 0.65, fill_color=GREY_DARK,
                                  stroke_color=GREY_LIGHT,
                                  label="Last token hidden state", label_color=GREY_LIGHT)
         linear     = rounded_box(2.2, 0.65, fill_color=str(ORANGE_MED) + "33",
                                  stroke_color=ORANGE_MED,
-                                 label="Linear → scalar", label_color=ORANGE_MED)
+                                 label="Linear → scalar", label_color=WHITE)
         score_box  = rounded_box(1.6, 0.65, fill_color=GREEN_DARK,
                                  stroke_color=GREEN_MED,
-                                 label="Score: 7.3", label_color=GREEN_MED)
+                                 label="Score: 7.3", label_color=WHITE)
 
         arch_chain = VGroup(input_box, trans_box, last_tok, linear, score_box)
         arch_chain.arrange(RIGHT, buff=0.5)
@@ -113,14 +113,14 @@ class RewardModelsScene(LLMScene):
         rater_b = rounded_box(4.2, 1.0, fill_color=str(RED_MED) + "22",
                               stroke_color=RED_MED,
                               label="Response B:\nGeneric, padded with clichés",
-                              label_color=RED_MED)
+                              label_color=WHITE)
         rater_b.shift(RIGHT * 3.2 + UP * 0.5)
 
         self.play(FadeIn(rater_a), FadeIn(rater_b), run_time=0.7)
 
         rater_box = rounded_box(2.5, 0.65, fill_color=str(YELLOW_MED) + "22",
                                 stroke_color=YELLOW_MED,
-                                label="Human Rater\nA is better ✅", label_color=YELLOW_MED)
+                                label="Human Rater\nA is better ✅", label_color=WHITE)
         rater_box.shift(DOWN * 0.4)
         self.play(FadeIn(rater_box), run_time=0.5)
 
@@ -157,7 +157,7 @@ class RewardModelsScene(LLMScene):
 
         score_b = rounded_box(2.4, 0.85, fill_color=str(RED_MED) + "22",
                               stroke_color=RED_MED,
-                              label="Response B\nscore = s_B", label_color=RED_MED)
+                              label="Response B\nscore = s_B", label_color=WHITE)
         score_b.shift(RIGHT * 3.5 + UP * 0.8)
 
         self.play(FadeIn(score_a), FadeIn(score_b), run_time=0.7)
@@ -221,7 +221,7 @@ class RewardModelsScene(LLMScene):
         step_boxes = VGroup()
         for lbl, col, note in step_data:
             b = rounded_box(2.6, 0.85, fill_color=str(col) + "22",
-                            stroke_color=col, label=lbl, label_color=col)
+                            stroke_color=col, label=lbl, label_color=WHITE)
             n = label_text(note, color=GREY_LIGHT)
             n.next_to(b, DOWN, buff=0.18)
             step_boxes.add(VGroup(b, n))
@@ -264,7 +264,7 @@ class RewardModelsScene(LLMScene):
 
         deploy_box = rounded_box(3.8, 0.85, fill_color=str(ORANGE_MED) + "22",
                                  stroke_color=ORANGE_MED,
-                                 label="RL training\nmillions of novel responses", label_color=ORANGE_MED)
+                                 label="RL training\nmillions of novel responses", label_color=WHITE)
         deploy_box.shift(RIGHT * 3.5 + UP * 1.0)
 
         gap_arrow = Arrow(train_box.get_right(), deploy_box.get_left(),
@@ -354,7 +354,7 @@ class RewardModelsScene(LLMScene):
         hack_boxes = VGroup()
         for lbl, col, sub in hack_flow:
             b = rounded_box(2.8, 1.0, fill_color=str(col) + "22",
-                            stroke_color=col, label=lbl, label_color=col)
+                            stroke_color=col, label=lbl, label_color=WHITE)
             s = label_text(sub, color=GREY_LIGHT)
             s.next_to(b, DOWN, buff=0.2)
             hack_boxes.add(VGroup(b, s))
@@ -371,7 +371,7 @@ class RewardModelsScene(LLMScene):
         solution_box = rounded_box(5.5, 0.65, fill_color=GREEN_DARK,
                                    stroke_color=GREEN_MED,
                                    label="Solution: KL penalty — don't drift too far from original model",
-                                   label_color=GREEN_MED)
+                                   label_color=WHITE)
         solution_box.to_edge(DOWN, buff=0.5)
 
         self.play(LaggedStart(*[FadeIn(b) for b in hack_boxes], lag_ratio=0.3),

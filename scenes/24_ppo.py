@@ -34,7 +34,7 @@ class PPOScene(LLMScene):
         prob_boxes = VGroup()
         for lbl, col, note in prob_steps:
             b = rounded_box(3.2, 0.9, fill_color=str(col) + "22",
-                            stroke_color=col, label=lbl, label_color=col)
+                            stroke_color=col, label=lbl, label_color=WHITE)
             n = label_text(note, color=GREY_LIGHT)
             n.next_to(b, DOWN, buff=0.2)
             prob_boxes.add(VGroup(b, n))
@@ -93,7 +93,7 @@ class PPOScene(LLMScene):
         zone_boxes = VGroup()
         for lbl, col, sub in zone_data:
             b = rounded_box(3.0, 0.9, fill_color=str(col) + "22",
-                            stroke_color=col, label=lbl, label_color=col)
+                            stroke_color=col, label=lbl, label_color=WHITE)
             s = label_text(sub, color=GREY_LIGHT)
             s.next_to(b, DOWN, buff=0.18)
             zone_boxes.add(VGroup(b, s))
@@ -203,7 +203,7 @@ class PPOScene(LLMScene):
         adv_def = rounded_box(7.0, 0.75, fill_color=str(YELLOW_MED) + "22",
                               stroke_color=YELLOW_MED,
                               label="Advantage  =  actual reward received  -  expected reward (critic)",
-                              label_color=YELLOW_MED)
+                              label_color=WHITE)
         adv_def.shift(UP * 2.0)
         self.play(FadeIn(adv_def), run_time=0.5)
 
@@ -226,7 +226,7 @@ class PPOScene(LLMScene):
         gae_box = rounded_box(6.0, 0.8, fill_color=str(PURPLE_MED) + "22",
                               stroke_color=PURPLE_MED,
                               label="GAE: lambda in (0, 1)  =  weighted blend\nlambda=0.95 typical — mostly low-variance TD",
-                              label_color=PURPLE_MED)
+                              label_color=WHITE)
         gae_box.shift(DOWN * 0.8)
 
         blend_arrow_l = Arrow(mc_box.get_bottom(), gae_box.get_top() + LEFT * 1.5,
@@ -266,7 +266,7 @@ class PPOScene(LLMScene):
         critic_box = rounded_box(3.8, 1.3, fill_color=str(ORANGE_MED) + "22",
                                  stroke_color=ORANGE_MED,
                                  label="CRITIC  (value fn)\nSame architecture + scalar head\nOutputs: expected return V(s)",
-                                 label_color=ORANGE_MED)
+                                 label_color=WHITE)
         critic_box.shift(RIGHT * 3.3 + UP * 0.6)
 
         self.play(FadeIn(actor_box), FadeIn(critic_box), run_time=0.7)
@@ -280,7 +280,7 @@ class PPOScene(LLMScene):
         adv_compute = rounded_box(4.5, 0.75, fill_color=str(YELLOW_MED) + "22",
                                   stroke_color=YELLOW_MED,
                                   label="Advantage  =  reward  -  V(s)\n(used to update Actor)",
-                                  label_color=YELLOW_MED)
+                                  label_color=WHITE)
         adv_compute.shift(DOWN * 0.9)
 
         a_arrow = Arrow(actor_box.get_bottom(), adv_compute.get_top() + LEFT * 1.0,
@@ -320,7 +320,7 @@ class PPOScene(LLMScene):
         loop_boxes = VGroup()
         for lbl, col, note in loop_steps:
             b = rounded_box(2.2, 0.9, fill_color=str(col) + "22",
-                            stroke_color=col, label=lbl, label_color=col)
+                            stroke_color=col, label=lbl, label_color=WHITE)
             n = label_text(note, color=GREY_LIGHT)
             n.next_to(b, DOWN, buff=0.18)
             loop_boxes.add(VGroup(b, n))
@@ -370,7 +370,7 @@ class PPOScene(LLMScene):
         model_boxes = VGroup()
         for lbl, col, note, pos in model_data:
             b = rounded_box(3.8, 0.95, fill_color=str(col) + "22",
-                            stroke_color=col, label=lbl, label_color=col)
+                            stroke_color=col, label=lbl, label_color=WHITE)
             n = label_text(note, color=GREY_LIGHT)
             n.next_to(b, DOWN, buff=0.15)
             grp = VGroup(b, n)
@@ -407,7 +407,7 @@ class PPOScene(LLMScene):
         kl_penalty = rounded_box(2.8, 0.75, fill_color=str(RED_MED) + "22",
                                  stroke_color=RED_MED,
                                  label="KL penalty\nlambda * KL(actor || ref)",
-                                 label_color=RED_MED)
+                                 label_color=WHITE)
         kl_penalty.shift(RIGHT * 1.2 + UP * 1.0)
 
         equals_lbl = body_text("=", color=WHITE)
@@ -416,7 +416,7 @@ class PPOScene(LLMScene):
         total_reward = rounded_box(2.5, 0.75, fill_color=str(YELLOW_MED) + "22",
                                    stroke_color=YELLOW_MED,
                                    label="Total reward\nused for PPO",
-                                   label_color=YELLOW_MED)
+                                   label_color=WHITE)
         total_reward.shift(RIGHT * 5.6 + UP * 1.0)
 
         self.play(FadeIn(rm_score), run_time=0.4)
@@ -427,7 +427,7 @@ class PPOScene(LLMScene):
         hack_box = rounded_box(5.2, 0.85, fill_color=str(RED_MED) + "22",
                                stroke_color=RED_MED,
                                label="Without KL:\nmodel learns bizarre styles that fool reward model",
-                               label_color=RED_MED)
+                               label_color=WHITE)
         hack_box.shift(LEFT * 3.2 + DOWN * 0.8)
 
         good_box = rounded_box(5.2, 0.85, fill_color=str(GREEN_MED) + "22",
@@ -463,7 +463,7 @@ class PPOScene(LLMScene):
         lim_boxes = VGroup()
         for name, col, desc in lim_data:
             b = rounded_box(2.9, 1.05, fill_color=str(col) + "22",
-                            stroke_color=col, label=name, label_color=col)
+                            stroke_color=col, label=name, label_color=WHITE)
             d = label_text(desc, color=GREY_LIGHT)
             d.next_to(b, DOWN, buff=0.18)
             lim_boxes.add(VGroup(b, d))
@@ -478,7 +478,7 @@ class PPOScene(LLMScene):
         grpo_tease = rounded_box(8.0, 0.65, fill_color=str(PURPLE_MED) + "22",
                                  stroke_color=PURPLE_MED,
                                  label="GRPO (next): no critic, 2 models, group-relative advantage — simpler and cheaper",
-                                 label_color=PURPLE_MED)
+                                 label_color=WHITE)
         grpo_tease.to_edge(DOWN, buff=0.5)
         self.play(FadeIn(grpo_tease), run_time=0.5)
         self.wait(1.0)

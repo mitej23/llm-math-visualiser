@@ -45,7 +45,7 @@ class REINFORCEScene(LLMScene):
             fill_color=str(RED_MED) + "22",
             stroke_color=RED_MED,
             label="Low reward episode\nActions were poor\nDecrease their probability",
-            label_color=RED_MED,
+            label_color=WHITE,
         )
         bad_box.move_to(RIGHT * 3.3 + DOWN * 0.3)
 
@@ -105,7 +105,7 @@ class REINFORCEScene(LLMScene):
                 fill_color=str(col) + "22",
                 stroke_color=col,
                 label=lbl,
-                label_color=col,
+                label_color=WHITE,
             )
             n = label_text(note, color=GREY_LIGHT)
             n.next_to(b, DOWN, buff=0.2)
@@ -176,7 +176,7 @@ class REINFORCEScene(LLMScene):
                 fill_color=str(col) + "22",
                 stroke_color=col,
                 label=f"Run {i+1}  r={lbl}",
-                label_color=col,
+                label_color=WHITE,
             )
             reward_boxes.add(b)
 
@@ -293,7 +293,7 @@ class REINFORCEScene(LLMScene):
                 fill_color=str(col) + "22",
                 stroke_color=col,
                 label=tok,
-                label_color=col,
+                label_color=WHITE,
             )
             token_boxes.add(b)
 
@@ -315,7 +315,7 @@ class REINFORCEScene(LLMScene):
             fill_color=str(ORANGE_MED) + "22",
             stroke_color=ORANGE_MED,
             label="Reward  r = +1.0\n(verifier: correct!)",
-            label_color=ORANGE_MED,
+            label_color=WHITE,
         )
         reward_arrive.move_to(RIGHT * 4.2 + DOWN * 0.8)
 
@@ -370,7 +370,7 @@ class REINFORCEScene(LLMScene):
             fill_color=str(RED_MED) + "22",
             stroke_color=RED_MED,
             label="Sparse Reward\n\nReward only arrives at the end\nof the full response.\n50 tokens taken before any feedback.\nEarly tokens shaped with no real signal.",
-            label_color=RED_MED,
+            label_color=WHITE,
         )
         sparse_box.move_to(LEFT * 3.3 + DOWN * 0.3)
 
@@ -379,7 +379,7 @@ class REINFORCEScene(LLMScene):
             fill_color=str(ORANGE_MED) + "22",
             stroke_color=ORANGE_MED,
             label="Credit Assignment\n\nEvery token blames/credits equally.\nThe critical word 'because' and the\nfiller word 'the' are treated the same.\nSignal is diluted across all tokens.",
-            label_color=ORANGE_MED,
+            label_color=WHITE,
         )
         credit_box.move_to(RIGHT * 3.3 + DOWN * 0.3)
 
@@ -424,7 +424,7 @@ class REINFORCEScene(LLMScene):
                 fill_color=str(col) + "22",
                 stroke_color=col,
                 label="+ " + txt,
-                label_color=col,
+                label_color=WHITE,
             )
             pro_boxes.add(b)
 
@@ -438,7 +438,7 @@ class REINFORCEScene(LLMScene):
                 fill_color=str(col) + "22",
                 stroke_color=col,
                 label="- " + txt,
-                label_color=col,
+                label_color=WHITE,
             )
             con_boxes.add(b)
 
@@ -526,7 +526,7 @@ class REINFORCEScene(LLMScene):
             fill_color=str(PURPLE_MED) + "22",
             stroke_color=PURPLE_MED,
             label="PPO\n\n+ Advantage estimation\n+ Clipped updates\n+ Reuse rollouts\n= Much lower variance",
-            label_color=PURPLE_MED,
+            label_color=WHITE,
         )
         ppo_box.move_to(RIGHT * 0.5 + DOWN * 0.3)
 

@@ -41,7 +41,7 @@ class RLOOScene(LLMScene):
         for tag, txt, col in response_labels:
             b = rounded_box(3.2, 0.9, fill_color=str(col) + "22",
                             stroke_color=col,
-                            label=f"{tag}: {txt}", label_color=col)
+                            label=f"{tag}: {txt}", label_color=WHITE)
             resp_boxes.add(b)
 
         resp_boxes.arrange(DOWN, buff=0.22)
@@ -76,7 +76,7 @@ class RLOOScene(LLMScene):
                                fill_color=str(RED_MED) + "22",
                                stroke_color=RED_MED,
                                label="GRPO baseline for R1:\naverage of R1 + R2 + R3 + R4\nBiased — R1 contaminates its own baseline",
-                               label_color=RED_MED)
+                               label_color=WHITE)
         grpo_box.move_to(LEFT * 3.0 + DOWN * 0.1)
 
         rloo_box = rounded_box(5.2, 1.3,
@@ -125,7 +125,7 @@ class RLOOScene(LLMScene):
             b = rounded_box(2.6, 1.1,
                             fill_color=str(col) + "22",
                             stroke_color=col,
-                            label=f"{tag}\nReward: {reward_str}", label_color=col)
+                            label=f"{tag}\nReward: {reward_str}", label_color=WHITE)
             card_boxes.add(b)
 
         card_boxes.arrange(RIGHT, buff=0.4)
@@ -187,7 +187,7 @@ class RLOOScene(LLMScene):
                                   fill_color=str(RED_MED) + "22",
                                   stroke_color=RED_MED,
                                   label="GRPO  (k = 4)\nBaseline = (r1 + r2 + r3 + r4) / 4\nAdvantage = r1 - baseline\n= r1 - r1/4 - avg(others)\n= (3/4) * (r1 - avg(others))\nEffective signal scaled by 0.75",
-                                  label_color=RED_MED)
+                                  label_color=WHITE)
         grpo_detail.move_to(LEFT * 3.0 + DOWN * 0.1)
 
         rloo_detail = rounded_box(5.4, 2.0,
@@ -221,7 +221,7 @@ class RLOOScene(LLMScene):
                               fill_color=str(ORANGE_MED) + "22",
                               stroke_color=ORANGE_MED,
                               label="PPO / GRPO\nOff-policy: reuse data across steps\nNeeds importance sampling ratio\nRatio must be clipped to [0.8, 1.2]\nExtra hyperparameter to tune",
-                              label_color=ORANGE_MED)
+                              label_color=WHITE)
         ppo_row.move_to(LEFT * 3.0 + DOWN * 0.0)
 
         rloo_row = rounded_box(5.4, 1.6,
@@ -373,7 +373,7 @@ class RLOOScene(LLMScene):
                                fill_color=str(ORANGE_MED) + "22",
                                stroke_color=ORANGE_MED,
                                label="Long response (62 tokens)\nGravity is the force by which...\n(verbose, less precise)\nReward: 0.78",
-                               label_color=ORANGE_MED)
+                               label_color=WHITE)
         long_box.move_to(RIGHT * 3.1 + DOWN * 0.1)
 
         self.play(FadeIn(short_box), FadeIn(long_box), run_time=0.6)

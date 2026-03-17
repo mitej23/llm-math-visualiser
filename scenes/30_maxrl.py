@@ -34,7 +34,7 @@ class MaxRLScene(LLMScene):
         step_boxes = VGroup()
         for lbl, col, note in step_data:
             b = rounded_box(2.4, 0.9, fill_color=str(col) + "22",
-                            stroke_color=col, label=lbl, label_color=col)
+                            stroke_color=col, label=lbl, label_color=WHITE)
             n = label_text(note, color=GREY_LIGHT)
             n.next_to(b, DOWN, buff=0.2)
             step_boxes.add(VGroup(b, n))
@@ -104,7 +104,7 @@ class MaxRLScene(LLMScene):
         for lbl, col, correct in response_states:
             fill = GREEN_DARK if correct else str(RED_MED) + "22"
             b = rounded_box(1.45, 0.75, fill_color=fill,
-                            stroke_color=col, label=lbl, label_color=col)
+                            stroke_color=col, label=lbl, label_color=WHITE)
             resp_boxes.add(b)
 
         resp_boxes.arrange(RIGHT, buff=0.22)
@@ -158,7 +158,7 @@ class MaxRLScene(LLMScene):
         temp_boxes = VGroup()
         for lbl, col, top_note, bot_note in temp_data:
             header = rounded_box(3.2, 0.8, fill_color=str(col) + "22",
-                                 stroke_color=col, label=lbl, label_color=col)
+                                 stroke_color=col, label=lbl, label_color=WHITE)
             top = label_text(top_note, color=GREY_LIGHT)
             top.next_to(header, DOWN, buff=0.18)
             bot = label_text(bot_note, color=col)
@@ -258,11 +258,11 @@ class MaxRLScene(LLMScene):
 
         rlhf_pipeline = VGroup(
             rounded_box(2.1, 0.8, fill_color=str(BLUE_MED) + "22",
-                        stroke_color=BLUE_MED, label="Policy\nModel", label_color=BLUE_MED),
+                        stroke_color=BLUE_MED, label="Policy\nModel", label_color=WHITE),
             rounded_box(2.1, 0.8, fill_color=str(ORANGE_MED) + "22",
-                        stroke_color=ORANGE_MED, label="Reward\nModel", label_color=ORANGE_MED),
+                        stroke_color=ORANGE_MED, label="Reward\nModel", label_color=WHITE),
             rounded_box(2.1, 0.8, fill_color=str(RED_MED) + "22",
-                        stroke_color=RED_MED, label="Value\nModel", label_color=RED_MED),
+                        stroke_color=RED_MED, label="Value\nModel", label_color=WHITE),
             rounded_box(2.1, 0.8, fill_color=str(GREY_MED) + "22",
                         stroke_color=GREY_MED, label="Reference\nPolicy", label_color=GREY_LIGHT),
         )
@@ -274,9 +274,9 @@ class MaxRLScene(LLMScene):
 
         maxrl_pipeline = VGroup(
             rounded_box(2.5, 0.8, fill_color=str(BLUE_MED) + "22",
-                        stroke_color=BLUE_MED, label="Policy\nModel", label_color=BLUE_MED),
+                        stroke_color=BLUE_MED, label="Policy\nModel", label_color=WHITE),
             rounded_box(2.5, 0.8, fill_color=str(GREEN_MED) + "22",
-                        stroke_color=GREEN_MED, label="External\nVerifier", label_color=GREEN_MED),
+                        stroke_color=GREEN_MED, label="External\nVerifier", label_color=WHITE),
         )
         maxrl_pipeline.arrange(RIGHT, buff=0.5)
         maxrl_pipeline.move_to(DOWN * 0.2)
@@ -329,7 +329,7 @@ class MaxRLScene(LLMScene):
                                       "Open-ended Q&A — no binary verifier\n"
                                       "Helpfulness judgments — subjective\n"
                                       "Nuanced reasoning — no checker",
-                                label_color=RED_MED)
+                                label_color=WHITE)
         fails_box.shift(RIGHT * 3.3 + DOWN * 0.2)
 
         vs_text = body_text("vs", color=GREY_MED)

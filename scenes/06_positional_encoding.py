@@ -43,15 +43,15 @@ class PositionalEncodingScene(LLMScene):
         col_groups = VGroup()
         for i, (word, pos) in enumerate(zip(words, pos_nums)):
             w_box = rounded_box(1.3, 0.6, fill_color=BLUE_DARK,
-                                stroke_color=word_col, label=word, label_color=word_col)
+                                stroke_color=word_col, label=word, label_color=WHITE)
             plus   = body_text("+", color=WHITE)
             p_box  = rounded_box(1.3, 0.6, fill_color=GREY_DARK,
                                  stroke_color=pos_col,
-                                 label=f"pos {pos}", label_color=pos_col)
+                                 label=f"pos {pos}", label_color=WHITE)
             eq     = body_text("=", color=WHITE)
             r_box  = rounded_box(1.3, 0.6, fill_color=str(PURPLE_MED) + "33",
                                  stroke_color=PURPLE_MED,
-                                 label="vector", label_color=PURPLE_MED)
+                                 label="vector", label_color=WHITE)
             row = VGroup(w_box, plus, p_box, eq, r_box)
             row.arrange(RIGHT, buff=0.2)
             col_groups.add(row)
@@ -268,7 +268,7 @@ class PositionalEncodingScene(LLMScene):
         for i in range(6):
             b = rounded_box(0.7, 0.5, fill_color=str(BLUE_MED) + "22",
                             stroke_color=BLUE_MED,
-                            label=f"pos {i}", label_color=BLUE_MED)
+                            label=f"pos {i}", label_color=WHITE)
             abs_boxes.add(b)
         abs_boxes.arrange(RIGHT, buff=0.1)
         abs_boxes.next_to(abs_label, RIGHT, buff=0.25)
@@ -282,7 +282,7 @@ class PositionalEncodingScene(LLMScene):
         rel_boxes2 = VGroup()
         for tok in rel_tokens:
             b = rounded_box(0.7, 0.5, fill_color=str(ORANGE_MED) + "22",
-                            stroke_color=ORANGE_MED, label=tok, label_color=ORANGE_MED)
+                            stroke_color=ORANGE_MED, label=tok, label_color=WHITE)
             rel_boxes2.add(b)
         rel_boxes2.arrange(RIGHT, buff=0.1)
         rel_boxes2.next_to(rel_label, RIGHT, buff=0.25)

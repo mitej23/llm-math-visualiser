@@ -38,7 +38,7 @@ class LogitsTokenSelectionScene(LLMScene):
         for lbl, col in stages:
             b = rounded_box(2.2, 0.85,
                             fill_color=str(col) + "22", stroke_color=col,
-                            label=lbl, label_color=col)
+                            label=lbl, label_color=WHITE)
             stage_boxes.add(b)
 
         stage_boxes.arrange(RIGHT, buff=0.45)
@@ -272,7 +272,7 @@ class LogitsTokenSelectionScene(LLMScene):
         for i, (lbl, score, col) in enumerate(step1_items):
             b = rounded_box(2.0, 0.55,
                             fill_color=str(col) + "22", stroke_color=col,
-                            label=f"{lbl}  [{score}]", label_color=col)
+                            label=f"{lbl}  [{score}]", label_color=WHITE)
             b.move_to(LEFT * 3.5 + RIGHT * i * 3.5 + UP * 0.3)
             step1_boxes.add(b)
             a = Arrow(root.get_bottom(), b.get_top(),
@@ -291,7 +291,7 @@ class LogitsTokenSelectionScene(LLMScene):
         for i, (lbl, score, col) in enumerate(step2_items):
             b = rounded_box(2.2, 0.55,
                             fill_color=str(col) + "22", stroke_color=col,
-                            label=f"{lbl}  [{score}]", label_color=col)
+                            label=f"{lbl}  [{score}]", label_color=WHITE)
             b.move_to(LEFT * 3.5 + RIGHT * i * 3.5 + DOWN * 1.0)
             step2_boxes.add(b)
             a = Arrow(step1_boxes[i // 2 + (1 if i == 2 else 0)].get_bottom(),

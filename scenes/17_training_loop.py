@@ -25,14 +25,14 @@ class TrainingLoopScene(LLMScene):
         prompt_tokens = ["The", "cat", "sat", "on", "the"]
         for tok in prompt_tokens:
             b = rounded_box(0.9, 0.55, fill_color=BLUE_DARK,
-                            stroke_color=BLUE_MED, label=tok, label_color=BLUE_MED)
+                            stroke_color=BLUE_MED, label=tok, label_color=WHITE)
             prompt_boxes.add(b)
 
         prompt_boxes.arrange(RIGHT, buff=0.18)
         prompt_boxes.shift(UP * 0.5)
 
         blank_box = rounded_box(0.9, 0.55, fill_color=GREY_DARK,
-                                stroke_color=YELLOW_MED, label="___", label_color=YELLOW_MED)
+                                stroke_color=YELLOW_MED, label="___", label_color=WHITE)
         blank_box.next_to(prompt_boxes, RIGHT, buff=0.18)
 
         self.play(LaggedStart(*[FadeIn(b) for b in prompt_boxes], lag_ratio=0.1),
@@ -104,7 +104,7 @@ class TrainingLoopScene(LLMScene):
         step_boxes = VGroup()
         for lbl, col in steps:
             b = rounded_box(1.7, 0.9, fill_color=str(col) + "22",
-                            stroke_color=col, label=lbl, label_color=col)
+                            stroke_color=col, label=lbl, label_color=WHITE)
             step_boxes.add(b)
 
         step_boxes.arrange(RIGHT, buff=0.4)
@@ -431,7 +431,7 @@ class TrainingLoopScene(LLMScene):
         for lbl, col in pipeline_steps:
             b = rounded_box(1.55, 1.0,
                             fill_color=str(col) + "22",
-                            stroke_color=col, label=lbl, label_color=col)
+                            stroke_color=col, label=lbl, label_color=WHITE)
             pipe_boxes.add(b)
 
         pipe_boxes.arrange(RIGHT, buff=0.25)

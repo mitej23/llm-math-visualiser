@@ -208,7 +208,7 @@ class TemperatureSamplingScene(LLMScene):
         for step, col, stage in pipeline_steps:
             b = rounded_box(1.9, 0.9,
                             fill_color=str(col) + "22", stroke_color=col,
-                            label=step, label_color=col)
+                            label=step, label_color=WHITE)
             pipe_boxes.add(b)
 
         pipe_boxes.arrange(RIGHT, buff=0.4)
@@ -299,7 +299,7 @@ class TemperatureSamplingScene(LLMScene):
             task_box = rounded_box(2.5, 0.5,
                                    fill_color=str(col) + "22",
                                    stroke_color=col,
-                                   label=name, label_color=col)
+                                   label=name, label_color=WHITE)
             setting_lbl = label_text(setting, color=WHITE)
             setting_lbl.next_to(task_box, RIGHT, buff=0.5)
             preset_rows.add(VGroup(task_box, setting_lbl))

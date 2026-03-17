@@ -18,7 +18,7 @@ class EmbeddingsScene(LLMScene):
         # ── 1. Token ID → vector lookup ───────────────────────────────────────
         token_id_box = rounded_box(1.5, 0.65, fill_color=GREY_DARK,
                                    stroke_color=GREEN_MED,
-                                   label='"king"  → 1547', label_color=GREEN_MED)
+                                   label='"king"  → 1547', label_color=WHITE)
         token_id_box.shift(LEFT * 3.5 + UP * 0.5)
 
         arrow = Arrow(token_id_box.get_right(),
@@ -337,7 +337,7 @@ class EmbeddingsScene(LLMScene):
         river_tokens = VGroup()
         for tok, col in [("river", BLUE_MED), ("bank", BLUE_LIGHT), ("flows", BLUE_MED)]:
             b = rounded_box(0.9, 0.5, fill_color=str(col) + "22",
-                            stroke_color=col, label=tok, label_color=col)
+                            stroke_color=col, label=tok, label_color=WHITE)
             river_tokens.add(b)
         river_tokens.arrange(RIGHT, buff=0.15)
         river_tokens.shift(LEFT * 2.8 + UP * 1.0)
@@ -349,7 +349,7 @@ class EmbeddingsScene(LLMScene):
         finance_tokens = VGroup()
         for tok, col in [("money", GREEN_MED), ("bank", GREEN_LIGHT), ("loan", GREEN_MED)]:
             b = rounded_box(0.9, 0.5, fill_color=str(col) + "22",
-                            stroke_color=col, label=tok, label_color=col)
+                            stroke_color=col, label=tok, label_color=WHITE)
             finance_tokens.add(b)
         finance_tokens.arrange(RIGHT, buff=0.15)
         finance_tokens.shift(RIGHT * 2.8 + UP * 1.0)
@@ -408,7 +408,7 @@ class EmbeddingsScene(LLMScene):
         stage_notes = VGroup()
         for label_str, col, note_str in stages:
             b = rounded_box(1.8, 0.75, fill_color=str(col) + "33",
-                            stroke_color=col, label=label_str, label_color=col)
+                            stroke_color=col, label=label_str, label_color=WHITE)
             stage_boxes.add(b)
             n = label_text(note_str, color=col)
             stage_notes.add(n)

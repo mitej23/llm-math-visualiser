@@ -101,7 +101,7 @@ class SFTScene(LLMScene):
         phase_boxes = VGroup()
         for lbl, col, sub in phases:
             b = rounded_box(2.8, 1.0, fill_color=str(col) + "22",
-                            stroke_color=col, label=lbl, label_color=col)
+                            stroke_color=col, label=lbl, label_color=WHITE)
             s = label_text(sub, color=GREY_LIGHT)
             s.next_to(b, DOWN, buff=0.2)
             phase_boxes.add(VGroup(b, s))
@@ -388,7 +388,7 @@ class SFTScene(LLMScene):
         for lbl, col, w in task_types:
             b = rounded_box(w * 0.45, 1.1,
                             fill_color=str(col) + "33",
-                            stroke_color=col, label=lbl, label_color=col)
+                            stroke_color=col, label=lbl, label_color=WHITE)
             task_boxes.add(b)
 
         task_boxes.arrange(RIGHT, buff=0.3)

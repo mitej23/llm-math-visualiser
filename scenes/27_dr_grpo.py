@@ -35,7 +35,7 @@ class DrGRPOScene(LLMScene):
                                 fill_color=str(GREEN_MED) + "22",
                                 stroke_color=GREEN_MED,
                                 label="Response A\n\"Yes.\"  (1 token)\nReward = +1",
-                                label_color=GREEN_MED)
+                                label_color=WHITE)
         short_box.move_to(LEFT * 3.2 + UP * 0.6)
 
         # Long wrong answer
@@ -43,7 +43,7 @@ class DrGRPOScene(LLMScene):
                                fill_color=str(RED_MED) + "22",
                                stroke_color=RED_MED,
                                label="Response B\n500-token wrong answer\nReward = -1",
-                               label_color=RED_MED)
+                               label_color=WHITE)
         long_box.move_to(RIGHT * 3.2 + UP * 0.6)
 
         self.play(FadeIn(short_box), FadeIn(long_box), run_time=0.7)
@@ -147,7 +147,7 @@ class DrGRPOScene(LLMScene):
                               fill_color=str(RED_MED) + "22",
                               stroke_color=RED_MED,
                               label="Original GRPO\nLoss = SUM over tokens\nLonger = more gradient",
-                              label_color=RED_MED)
+                              label_color=WHITE)
         old_box.move_to(LEFT * 3.0 + UP * 0.4)
 
         vs_lbl = body_text("vs", color=GREY_LIGHT)
@@ -158,7 +158,7 @@ class DrGRPOScene(LLMScene):
                               fill_color=str(GREEN_MED) + "22",
                               stroke_color=GREEN_MED,
                               label="Dr. GRPO\nLoss = MEAN over tokens\nAll responses equal weight",
-                              label_color=GREEN_MED)
+                              label_color=WHITE)
         new_box.move_to(RIGHT * 3.0 + UP * 0.4)
 
         self.play(FadeIn(old_box), FadeIn(vs_lbl), FadeIn(new_box), run_time=0.8)
@@ -207,7 +207,7 @@ class DrGRPOScene(LLMScene):
             bar = Rectangle(width=bar_w, height=max(h, 0.05),
                             fill_color=col, fill_opacity=0.8,
                             stroke_color=col, stroke_width=1)
-            bar.move_to([LEFT.get_x() * 3.2 + i * (bar_w + 0.45), -1.8 + h / 2, 0])
+            bar.move_to([-3.2 + i * (bar_w + 0.45), -1.8 + h / 2, 0])
             val_lbl = label_text(str(val), color=col)
             val_lbl.next_to(bar, UP, buff=0.08)
             resp_lbl = label_text(resp, color=GREY_LIGHT)
@@ -227,7 +227,7 @@ class DrGRPOScene(LLMScene):
             bar = Rectangle(width=bar_w, height=equal_h,
                             fill_color=col, fill_opacity=0.8,
                             stroke_color=col, stroke_width=1)
-            bar.move_to([RIGHT.get_x() * 2.4 + i * (bar_w + 0.45), -1.8 + equal_h / 2, 0])
+            bar.move_to([2.4 + i * (bar_w + 0.45), -1.8 + equal_h / 2, 0])
             val_lbl = label_text("1", color=col)
             val_lbl.next_to(bar, UP, buff=0.08)
             resp_lbl = label_text(resp, color=GREY_LIGHT)
@@ -275,7 +275,7 @@ class DrGRPOScene(LLMScene):
                             fill_color=str(col) + "22",
                             stroke_color=col,
                             label=f"{lbl}\n{note}",
-                            label_color=col)
+                            label_color=WHITE)
             prob_boxes.add(b)
 
         prob_boxes.arrange(RIGHT, buff=0.6)
@@ -313,7 +313,7 @@ class DrGRPOScene(LLMScene):
                             fill_color=str(col) + "22",
                             stroke_color=col,
                             label=lbl,
-                            label_color=col)
+                            label_color=WHITE)
             n = label_text(note, color=GREY_LIGHT)
             n.next_to(b, DOWN, buff=0.18)
             stage_boxes.add(VGroup(b, n))
@@ -337,7 +337,7 @@ class DrGRPOScene(LLMScene):
                                    fill_color=str(RED_MED) + "22",
                                    stroke_color=RED_MED,
                                    label="Model internalises: write more tokens -> more gradient -> better training signal",
-                                   label_color=RED_MED)
+                                   label_color=WHITE)
         hack_insight.to_edge(DOWN, buff=0.5)
         self.play(FadeIn(hack_insight), run_time=0.5)
         self.wait(1.0)
@@ -380,14 +380,14 @@ class DrGRPOScene(LLMScene):
                                 fill_color=str(RED_MED) + "22",
                                 stroke_color=RED_MED,
                                 label="Old: divide by N=4 responses\nR4 (500 tok) still dominates",
-                                label_color=RED_MED)
+                                label_color=WHITE)
         old_denom.move_to(LEFT * 2.8 + DOWN * 1.5)
 
         new_denom = rounded_box(4.8, 0.9,
                                 fill_color=str(GREEN_MED) + "22",
                                 stroke_color=GREEN_MED,
                                 label="New: divide by total effective tokens (530)\nEach token weighted equally",
-                                label_color=GREEN_MED)
+                                label_color=WHITE)
         new_denom.move_to(RIGHT * 2.8 + DOWN * 1.5)
 
         self.play(FadeIn(old_denom), run_time=0.5)

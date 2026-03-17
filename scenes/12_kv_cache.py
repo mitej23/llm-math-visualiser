@@ -26,7 +26,7 @@ class KVCacheScene(LLMScene):
         token_boxes = VGroup(*[
             rounded_box(0.9, 0.55,
                         fill_color=BLUE_DARK, stroke_color=BLUE_MED,
-                        label=t, label_color=BLUE_MED)
+                        label=t, label_color=WHITE)
             for t in token_labels
         ])
         token_boxes.arrange(RIGHT, buff=0.2)
@@ -71,7 +71,7 @@ class KVCacheScene(LLMScene):
         new_token_box = rounded_box(1.2, 0.6,
                                     fill_color=str(YELLOW_MED) + "33",
                                     stroke_color=YELLOW_MED,
-                                    label="New Q", label_color=YELLOW_MED)
+                                    label="New Q", label_color=WHITE)
         new_token_box.shift(DOWN * 0.5 + LEFT * 3)
 
         attend_arrow = Arrow(new_token_box.get_top(),
@@ -82,7 +82,7 @@ class KVCacheScene(LLMScene):
 
         output_box = rounded_box(1.4, 0.6,
                                  fill_color=BLUE_DARK, stroke_color=BLUE_MED,
-                                 label="Output token", label_color=BLUE_MED)
+                                 label="Output token", label_color=WHITE)
         output_box.shift(DOWN * 0.5 + RIGHT * 3)
 
         append_arrow = Arrow(output_box.get_top(),
@@ -236,7 +236,7 @@ class KVCacheScene(LLMScene):
         result_box = rounded_box(4.5, 1.2,
                                  fill_color=str(GREEN_MED) + "22",
                                  stroke_color=GREEN_MED,
-                                 label="= ~537 MB for 4k tokens", label_color=GREEN_MED)
+                                 label="= ~537 MB for 4k tokens", label_color=WHITE)
         result_box.shift(RIGHT * 3.0 + UP * 0.5)
 
         scale_lbl = label_text(
@@ -264,12 +264,12 @@ class KVCacheScene(LLMScene):
             q = rounded_box(0.9, 0.45,
                             fill_color=str(BLUE_MED) + "44",
                             stroke_color=BLUE_MED,
-                            label=f"Q{i+1}", label_color=BLUE_MED)
+                            label=f"Q{i+1}", label_color=WHITE)
             mha_q_heads.add(q)
             kv = rounded_box(0.9, 0.45,
                              fill_color=str(GREEN_MED) + "44",
                              stroke_color=GREEN_MED,
-                             label=f"KV{i+1}", label_color=GREEN_MED)
+                             label=f"KV{i+1}", label_color=WHITE)
             mha_kv_heads.add(kv)
 
         mha_q_heads.arrange(DOWN, buff=0.1)
@@ -293,13 +293,13 @@ class KVCacheScene(LLMScene):
             q = rounded_box(0.9, 0.45,
                             fill_color=str(BLUE_MED) + "44",
                             stroke_color=BLUE_MED,
-                            label=f"Q{i+1}", label_color=BLUE_MED)
+                            label=f"Q{i+1}", label_color=WHITE)
             mqa_q_heads.add(q)
 
         shared_kv = rounded_box(1.0, 1.8,
                                 fill_color=str(ORANGE_MED) + "44",
                                 stroke_color=ORANGE_MED,
-                                label="Shared\nK, V", label_color=ORANGE_MED)
+                                label="Shared\nK, V", label_color=WHITE)
 
         mqa_q_heads.arrange(DOWN, buff=0.1)
         mqa_q_heads.shift(RIGHT * 1.5 + UP * 0.3)

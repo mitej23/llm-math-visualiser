@@ -40,7 +40,7 @@ class TokenizationScene(LLMScene):
                 fill_color=str(col) + "33",  # 20% opacity
                 stroke_color=col,
                 label=tok,
-                label_color=col,
+                label_color=WHITE,
             )
             token_boxes.add(box)
 
@@ -63,7 +63,7 @@ class TokenizationScene(LLMScene):
                 fill_color=GREY_DARK,
                 stroke_color=col,
                 label=str(tid),
-                label_color=col,
+                label_color=WHITE,
             )
             id_boxes.add(box)
 
@@ -100,7 +100,7 @@ class TokenizationScene(LLMScene):
         sub_boxes = VGroup()
         for tok, col in zip(sub_tokens, sub_colors):
             b = rounded_box(0.9, 0.55, fill_color=str(col) + "33",
-                            stroke_color=col, label=tok, label_color=col)
+                            stroke_color=col, label=tok, label_color=WHITE)
             sub_boxes.add(b)
 
         sub_boxes.arrange(RIGHT, buff=0.15)
@@ -149,7 +149,7 @@ class TokenizationScene(LLMScene):
         char_tokens = VGroup()
         for ch, col in zip(["h","e","l","l","o"], [RED_MED]*5):
             b = rounded_box(0.45, 0.5, fill_color=str(RED_MED) + "22",
-                            stroke_color=RED_MED, label=ch, label_color=RED_MED)
+                            stroke_color=RED_MED, label=ch, label_color=WHITE)
             char_tokens.add(b)
         char_tokens.arrange(RIGHT, buff=0.1)
         char_tokens.next_to(char_label, RIGHT, buff=0.3)
@@ -160,7 +160,7 @@ class TokenizationScene(LLMScene):
         word_label = label_text("Word:", color=ORANGE_MED)
         word_label.shift(LEFT * 4.5 + UP * 0.0)
         word_box = rounded_box(1.2, 0.5, fill_color=str(ORANGE_MED) + "22",
-                               stroke_color=ORANGE_MED, label="hello", label_color=ORANGE_MED)
+                               stroke_color=ORANGE_MED, label="hello", label_color=WHITE)
         word_box.next_to(word_label, RIGHT, buff=0.3)
         word_note = label_text("1 token — but 170,000+ word vocab is huge!", color=ORANGE_MED)
         word_note.next_to(word_box, RIGHT, buff=0.3)
@@ -169,7 +169,7 @@ class TokenizationScene(LLMScene):
         bpe_label = label_text("BPE:", color=GREEN_MED)
         bpe_label.shift(LEFT * 4.5 + DOWN * 1.2)
         bpe_box = rounded_box(1.2, 0.5, fill_color=str(GREEN_MED) + "22",
-                              stroke_color=GREEN_MED, label="hello", label_color=GREEN_MED)
+                              stroke_color=GREEN_MED, label="hello", label_color=WHITE)
         bpe_box.next_to(bpe_label, RIGHT, buff=0.3)
         bpe_note = label_text("1 token — vocab ~50k, goldilocks zone!", color=GREEN_MED)
         bpe_note.next_to(bpe_box, RIGHT, buff=0.3)
@@ -222,7 +222,7 @@ class TokenizationScene(LLMScene):
         merge1_boxes = VGroup()
         for tok in ["lo", "w", "e", "r"]:
             b = rounded_box(0.6, 0.5, fill_color=str(BLUE_MED) + "22",
-                            stroke_color=BLUE_MED, label=tok, label_color=BLUE_MED)
+                            stroke_color=BLUE_MED, label=tok, label_color=WHITE)
             merge1_boxes.add(b)
         merge1_boxes.arrange(RIGHT, buff=0.15)
         merge1_boxes.next_to(m1_label, DOWN, buff=0.35)
@@ -237,7 +237,7 @@ class TokenizationScene(LLMScene):
         merge2_boxes = VGroup()
         for tok in ["low", "e", "r"]:
             b = rounded_box(0.7, 0.5, fill_color=str(GREEN_MED) + "22",
-                            stroke_color=GREEN_MED, label=tok, label_color=GREEN_MED)
+                            stroke_color=GREEN_MED, label=tok, label_color=WHITE)
             merge2_boxes.add(b)
         merge2_boxes.arrange(RIGHT, buff=0.15)
         merge2_boxes.next_to(m2_label, DOWN, buff=0.3)
@@ -250,7 +250,7 @@ class TokenizationScene(LLMScene):
         self.play(FadeIn(m3_label), run_time=0.5)
 
         final_box = rounded_box(1.2, 0.55, fill_color=str(PURPLE_MED) + "22",
-                                stroke_color=PURPLE_MED, label="lower", label_color=PURPLE_MED)
+                                stroke_color=PURPLE_MED, label="lower", label_color=WHITE)
         final_box.next_to(m3_label, DOWN, buff=0.3)
         self.play(FadeIn(final_box), run_time=0.6)
         self.wait(1.5)
@@ -312,7 +312,7 @@ class TokenizationScene(LLMScene):
         spec_rows = VGroup()
         for tok, meaning, col in special_tokens:
             tok_box = rounded_box(1.3, 0.52, fill_color=str(col) + "33",
-                                  stroke_color=col, label=tok, label_color=col)
+                                  stroke_color=col, label=tok, label_color=WHITE)
             arrow = Arrow(tok_box.get_right(),
                           tok_box.get_right() + RIGHT * 0.6,
                           color=GREY_MED, stroke_width=1.5, buff=0.05,
@@ -349,7 +349,7 @@ class TokenizationScene(LLMScene):
             for part, col in zip(parts, cols):
                 b = rounded_box(max(len(part) * 0.2 + 0.3, 0.7), 0.5,
                                 fill_color=str(col) + "22",
-                                stroke_color=col, label=part, label_color=col)
+                                stroke_color=col, label=part, label_color=WHITE)
                 part_boxes.add(b)
             part_boxes.arrange(RIGHT, buff=0.1)
             row = VGroup(word_lbl, part_boxes)
@@ -386,9 +386,9 @@ class TokenizationScene(LLMScene):
         id_row = VGroup()
         for tok_str, tok_id, col in [("hello", "15496", GREEN_MED), (" world", "995", BLUE_MED)]:
             tok_b = rounded_box(1.1, 0.52, fill_color=str(col) + "22",
-                                stroke_color=col, label=tok_str, label_color=col)
+                                stroke_color=col, label=tok_str, label_color=WHITE)
             id_b = rounded_box(0.9, 0.52, fill_color=GREY_DARK,
-                               stroke_color=col, label=tok_id, label_color=col)
+                               stroke_color=col, label=tok_id, label_color=WHITE)
             pair = VGroup(tok_b, id_b)
             pair.arrange(DOWN, buff=0.12)
             id_row.add(pair)

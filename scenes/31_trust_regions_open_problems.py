@@ -99,7 +99,7 @@ class TrustRegionsScene(LLMScene):
         std_boxes = VGroup()
         for s, c in zip(std_steps, std_colors):
             b = rounded_box(2.0, 0.7, fill_color=str(c) + "22",
-                            stroke_color=c, label=s, label_color=c)
+                            stroke_color=c, label=s, label_color=WHITE)
             std_boxes.add(b)
         std_boxes.arrange(RIGHT, buff=0.25)
         std_boxes.move_to(UP * 1.0)
@@ -124,7 +124,7 @@ class TrustRegionsScene(LLMScene):
         critic_box = rounded_box(3.5, 0.7, fill_color=str(ORANGE_MED) + "22",
                                  stroke_color=ORANGE_MED,
                                  label="Critic — Updates asynchronously",
-                                 label_color=ORANGE_MED)
+                                 label_color=WHITE)
         critic_box.move_to(RIGHT * 2.8 + DOWN * 1.3)
 
         async_arrow = Arrow(actor_box.get_right(), critic_box.get_left(),
@@ -168,7 +168,7 @@ class TrustRegionsScene(LLMScene):
         role_group = VGroup()
         for name, col, pos in role_data:
             b = rounded_box(2.2, 1.0, fill_color=str(col) + "22",
-                            stroke_color=col, label=name, label_color=col)
+                            stroke_color=col, label=name, label_color=WHITE)
             b.move_to(pos)
             role_boxes[name] = b
             role_group.add(b)
@@ -225,7 +225,7 @@ class TrustRegionsScene(LLMScene):
         token_boxes = VGroup()
         for lbl, col in zip(token_labels, token_colors):
             b = rounded_box(1.35, 0.6, fill_color=str(col) + "33",
-                            stroke_color=col, label=lbl, label_color=col)
+                            stroke_color=col, label=lbl, label_color=WHITE)
             token_boxes.add(b)
         token_boxes.arrange(RIGHT, buff=0.15)
         token_boxes.move_to(UP * 0.6)
@@ -240,7 +240,7 @@ class TrustRegionsScene(LLMScene):
         # Single reward at end
         reward_box = rounded_box(2.0, 0.6, fill_color=str(RED_MED) + "22",
                                  stroke_color=RED_MED,
-                                 label="Reward = 0\n(wrong answer)", label_color=RED_MED)
+                                 label="Reward = 0\n(wrong answer)", label_color=WHITE)
         reward_box.next_to(token_boxes, DOWN, buff=0.5)
         reward_arrow = Arrow(token_boxes[-1].get_bottom(), reward_box.get_top(),
                              color=RED_MED, buff=0.05, stroke_width=2.0,
@@ -421,7 +421,7 @@ class TrustRegionsScene(LLMScene):
         # Reward box at the right end
         reward_sr = rounded_box(1.8, 0.65, fill_color=str(ORANGE_MED) + "33",
                                 stroke_color=ORANGE_MED,
-                                label="Reward\n= 1", label_color=ORANGE_MED)
+                                label="Reward\n= 1", label_color=WHITE)
         reward_sr.next_to(traj_bar, RIGHT, buff=0.1)
         reward_arrow_sr = Arrow(traj_bar.get_right(), reward_sr.get_left(),
                                 color=ORANGE_MED, buff=0.05, stroke_width=2.0,
@@ -534,7 +534,7 @@ class TrustRegionsScene(LLMScene):
         unknown_box = rounded_box(6.5, 0.7, fill_color=str(RED_MED) + "22",
                                   stroke_color=RED_MED,
                                   label="Unknown: scaling laws for RL; optimal RL:SFT ratio; general task transfer",
-                                  label_color=RED_MED)
+                                  label_color=WHITE)
         unknown_box.move_to(DOWN * 2.9)
 
         self.play(LaggedStart(*[FadeIn(b) for b in model_boxes], lag_ratio=0.2),
@@ -564,12 +564,12 @@ class TrustRegionsScene(LLMScene):
 
         grpo_fam = rounded_box(2.5, 0.65, fill_color=str(ORANGE_MED) + "22",
                                stroke_color=ORANGE_MED,
-                               label="GRPO\n(no critic)", label_color=ORANGE_MED)
+                               label="GRPO\n(no critic)", label_color=WHITE)
         grpo_fam.move_to(UP * 0.4 + RIGHT * 0.0)
 
         dapo_fam = rounded_box(2.5, 0.65, fill_color=str(PURPLE_MED) + "22",
                                stroke_color=PURPLE_MED,
-                               label="DAPO\n(dynamic clip)", label_color=PURPLE_MED)
+                               label="DAPO\n(dynamic clip)", label_color=WHITE)
         dapo_fam.move_to(UP * 0.4 + RIGHT * 3.5)
 
         # Level 3
@@ -580,12 +580,12 @@ class TrustRegionsScene(LLMScene):
 
         drgrpo_fam = rounded_box(2.5, 0.65, fill_color=str(ORANGE_DARK) + "88",
                                  stroke_color=ORANGE_MED,
-                                 label="Dr. GRPO\n(length norm)", label_color=ORANGE_MED)
+                                 label="Dr. GRPO\n(length norm)", label_color=WHITE)
         drgrpo_fam.move_to(DOWN * 1.0 + RIGHT * 0.0)
 
         scalerl_fam = rounded_box(2.5, 0.65, fill_color=str(PURPLE_MED) + "33",
                                   stroke_color=PURPLE_MED,
-                                  label="ScaleRL\n(1000s of GPUs)", label_color=PURPLE_MED)
+                                  label="ScaleRL\n(1000s of GPUs)", label_color=WHITE)
         scalerl_fam.move_to(DOWN * 1.0 + RIGHT * 3.5)
 
         tree_arrows = VGroup(

@@ -74,7 +74,7 @@ class MixtureOfExpertsScene(LLMScene):
 
         router_box = rounded_box(1.6, 0.65,
                                  fill_color=str(PURPLE_MED) + "33", stroke_color=PURPLE_MED,
-                                 label="Router\n(small linear)", label_color=PURPLE_MED)
+                                 label="Router\n(small linear)", label_color=WHITE)
         router_box.shift(LEFT * 2)
 
         n_experts = 8
@@ -86,7 +86,7 @@ class MixtureOfExpertsScene(LLMScene):
             e = rounded_box(0.85, 0.55,
                             fill_color=str(col) + "33" if op > 0.5 else GREY_DARK,
                             stroke_color=col,
-                            label=f"E{i+1}", label_color=col)
+                            label=f"E{i+1}", label_color=WHITE)
             e.set_opacity(op)
             expert_boxes.add(e)
 
@@ -95,12 +95,12 @@ class MixtureOfExpertsScene(LLMScene):
 
         combine_box = rounded_box(1.6, 0.65,
                                   fill_color=GREEN_DARK, stroke_color=GREEN_MED,
-                                  label="Weighted\nCombine", label_color=GREEN_MED)
+                                  label="Weighted\nCombine", label_color=WHITE)
         combine_box.shift(RIGHT * 4.0)
 
         out_box = rounded_box(1.4, 0.65,
                               fill_color=BLUE_DARK, stroke_color=BLUE_MED,
-                              label="Output", label_color=BLUE_MED)
+                              label="Output", label_color=WHITE)
         out_box.shift(RIGHT * 6.2)
 
         # Arrows
@@ -248,7 +248,7 @@ class MixtureOfExpertsScene(LLMScene):
             outer = rounded_box(3.2, 0.9,
                                 fill_color=str(col) + "22",
                                 stroke_color=col,
-                                label="", label_color=col)
+                                label="", label_color=WHITE)
             name_lbl = body_text(name, color=col)
             name_lbl.move_to(outer.get_center() + LEFT * 0.6)
             spec_lbl = label_text(spec, color=WHITE)
@@ -284,7 +284,7 @@ class MixtureOfExpertsScene(LLMScene):
             b = rounded_box(1.35, 1.0,
                             fill_color=str(col) + "33",
                             stroke_color=col,
-                            label=lbl, label_color=col)
+                            label=lbl, label_color=WHITE)
             lb_boxes.add(b)
 
         lb_boxes.arrange(RIGHT, buff=0.18)
@@ -327,21 +327,21 @@ class MixtureOfExpertsScene(LLMScene):
                                   fill_color=str(RED_MED) + "22",
                                   stroke_color=RED_MED,
                                   label="Expert 3\n(FULL: 4/4 slots used)",
-                                  label_color=RED_MED)
+                                  label_color=WHITE)
         expert_full.move_to(ORIGIN + RIGHT * 1.5)
 
         # Already-queued tokens inside
         queued = VGroup()
         for i in range(4):
             tb = rounded_box(0.7, 0.4, fill_color=BLUE_DARK,
-                             stroke_color=BLUE_MED, label=f"t{i+1}", label_color=BLUE_MED)
+                             stroke_color=BLUE_MED, label=f"t{i+1}", label_color=WHITE)
             queued.add(tb)
         queued.arrange(DOWN, buff=0.15)
         queued.move_to(expert_full.get_center())
 
         # New arriving token
         new_tok = rounded_box(0.8, 0.45, fill_color=str(YELLOW_MED) + "33",
-                              stroke_color=YELLOW_MED, label="t5 NEW", label_color=YELLOW_MED)
+                              stroke_color=YELLOW_MED, label="t5 NEW", label_color=WHITE)
         new_tok.move_to(LEFT * 3.5)
         arrow_to_full = Arrow(new_tok.get_right(), expert_full.get_left(),
                               color=YELLOW_MED, stroke_width=1.5, buff=0.05,
@@ -377,9 +377,9 @@ class MixtureOfExpertsScene(LLMScene):
         reg_lbl.move_to(LEFT * 3.8 + UP * 1.6)
 
         reg_attn = rounded_box(1.8, 0.65, fill_color=str(BLUE_MED) + "22",
-                               stroke_color=BLUE_MED, label="Attention", label_color=BLUE_MED)
+                               stroke_color=BLUE_MED, label="Attention", label_color=WHITE)
         reg_ffn = rounded_box(1.8, 0.65, fill_color=str(BLUE_MED) + "22",
-                              stroke_color=BLUE_MED, label="Single FFN", label_color=BLUE_MED)
+                              stroke_color=BLUE_MED, label="Single FFN", label_color=WHITE)
         reg_attn.move_to(LEFT * 3.8 + UP * 0.4)
         reg_ffn.move_to(LEFT * 3.8 + DOWN * 0.7)
         reg_arr = Arrow(reg_attn.get_bottom(), reg_ffn.get_top(),
@@ -391,17 +391,17 @@ class MixtureOfExpertsScene(LLMScene):
         moe_lbl2.move_to(RIGHT * 2.5 + UP * 1.6)
 
         moe_attn = rounded_box(1.8, 0.65, fill_color=str(GREEN_MED) + "22",
-                               stroke_color=GREEN_MED, label="Attention", label_color=GREEN_MED)
+                               stroke_color=GREEN_MED, label="Attention", label_color=WHITE)
         moe_attn.move_to(RIGHT * 2.5 + UP * 0.4)
 
         moe_router_b = rounded_box(1.4, 0.55, fill_color=str(PURPLE_MED) + "22",
-                                   stroke_color=PURPLE_MED, label="Router", label_color=PURPLE_MED)
+                                   stroke_color=PURPLE_MED, label="Router", label_color=WHITE)
         moe_router_b.move_to(RIGHT * 2.5 + DOWN * 0.5)
 
         moe_experts_mini = VGroup()
         for i in range(4):
             eb = rounded_box(1.0, 0.45, fill_color=str(ORANGE_MED) + "22",
-                             stroke_color=ORANGE_MED, label=f"FFN {i+1}", label_color=ORANGE_MED)
+                             stroke_color=ORANGE_MED, label=f"FFN {i+1}", label_color=WHITE)
             moe_experts_mini.add(eb)
         moe_experts_mini.arrange(RIGHT, buff=0.15)
         moe_experts_mini.next_to(moe_router_b, DOWN, buff=0.3)
@@ -454,7 +454,7 @@ class MixtureOfExpertsScene(LLMScene):
         for challenge, detail, col in challenges:
             ch_box = rounded_box(11.5, 0.85,
                                  fill_color=str(col) + "22",
-                                 stroke_color=col, label="", label_color=col)
+                                 stroke_color=col, label="", label_color=WHITE)
             ch_lbl = body_text(challenge, color=col)
             det_lbl = label_text(detail, color=WHITE)
             ch_lbl.move_to(ch_box.get_center() + LEFT * 2.5)

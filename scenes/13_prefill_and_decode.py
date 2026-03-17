@@ -121,7 +121,7 @@ class PrefillDecodeScene(LLMScene):
         for lbl, col, desc in steps:
             box = rounded_box(2.8, 1.0,
                               fill_color=str(col) + "22", stroke_color=col,
-                              label=lbl, label_color=col)
+                              label=lbl, label_color=WHITE)
             desc_txt = label_text(desc, color=GREY_LIGHT)
             desc_txt.next_to(box, DOWN, buff=0.2)
             step_boxes.add(VGroup(box, desc_txt))
@@ -322,7 +322,7 @@ class PrefillDecodeScene(LLMScene):
                                      fill_color=str(ORANGE_MED) + "22",
                                      stroke_color=ORANGE_MED,
                                      label="Memory Bandwidth Bottleneck — GPU reads full KV Cache each step",
-                                     label_color=ORANGE_MED)
+                                     label_color=WHITE)
         bottleneck_box.to_edge(DOWN, buff=0.35)
 
         self.play(FadeIn(pf_util_label), FadeIn(dc_util_label), run_time=0.5)
@@ -352,7 +352,7 @@ class PrefillDecodeScene(LLMScene):
             b = rounded_box(1.2, 0.6,
                             fill_color=str(ORANGE_MED) + "22",
                             stroke_color=ORANGE_MED,
-                            label=tok, label_color=ORANGE_MED)
+                            label=tok, label_color=WHITE)
             b.move_to(UP * 0.5 + RIGHT * (i * 1.5 - 2.25))
             draft_boxes.add(b)
 
@@ -368,7 +368,7 @@ class PrefillDecodeScene(LLMScene):
             ind = rounded_box(1.2, 0.55,
                               fill_color=str(acol) + "22",
                               stroke_color=acol,
-                              label=albl, label_color=acol)
+                              label=albl, label_color=WHITE)
             ind.move_to(DOWN * 1.0 + RIGHT * (i * 1.5 - 2.25))
             accept_group.add(ind)
 

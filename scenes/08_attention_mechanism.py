@@ -160,7 +160,7 @@ class AttentionMechanismScene(LLMScene):
                                 fill_color=str(BLUE_MED) + "22",
                                 stroke_color=BLUE_MED,
                                 label="Query: \"Books about space exploration\"",
-                                label_color=BLUE_MED)
+                                label_color=WHITE)
         query_box.shift(UP * 1.8)
 
         books = [
@@ -174,7 +174,7 @@ class AttentionMechanismScene(LLMScene):
         for name, col, score in books:
             b = rounded_box(2.6, 0.75,
                             fill_color=str(col) + "22",
-                            stroke_color=col, label=name, label_color=col)
+                            stroke_color=col, label=name, label_color=WHITE)
             s = label_text(f"Match score: {score}", color=col)
             s.next_to(b, DOWN, buff=0.1)
             book_boxes.add(VGroup(b, s))
@@ -456,14 +456,14 @@ class AttentionMechanismScene(LLMScene):
                               fill_color=str(BLUE_MED) + "22",
                               stroke_color=BLUE_MED,
                               label="Encoder Output\n(French: 'Je t'aime')",
-                              label_color=BLUE_MED)
+                              label_color=WHITE)
         enc_box.shift(UP * 1.6)
 
         dec_box = rounded_box(4.0, 1.0,
                               fill_color=str(GREEN_MED) + "22",
                               stroke_color=GREEN_MED,
                               label="Decoder State\n(English: generating 'love')",
-                              label_color=GREEN_MED)
+                              label_color=WHITE)
         dec_box.shift(DOWN * 0.8)
 
         kv_lbl = label_text("Keys + Values", color=BLUE_MED)

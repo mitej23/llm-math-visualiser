@@ -29,7 +29,7 @@ class FeedForwardScene(LLMScene):
             b = rounded_box(3.5, 1.1,
                             fill_color=str(col) + "22",
                             stroke_color=col,
-                            label=lbl, label_color=col)
+                            label=lbl, label_color=WHITE)
             block_boxes.add(b)
 
         block_boxes.arrange(RIGHT, buff=0.8)
@@ -99,15 +99,15 @@ class FeedForwardScene(LLMScene):
         input_box.shift(LEFT * 4)
 
         w1_box = rounded_box(1.6, 0.6, stroke_color=GREEN_MED,
-                             label="W1 x x\n(main)", label_color=GREEN_MED)
+                             label="W1 x x\n(main)", label_color=WHITE)
         w1_box.shift(LEFT * 1.5 + UP * 0.8)
 
         w3_box = rounded_box(1.6, 0.6, stroke_color=ORANGE_MED,
-                             label="W3 x x\n(gate)", label_color=ORANGE_MED)
+                             label="W3 x x\n(gate)", label_color=WHITE)
         w3_box.shift(LEFT * 1.5 + DOWN * 0.8)
 
         silu_box = rounded_box(1.4, 0.6, stroke_color=ORANGE_MED,
-                               label="SiLU( . )", label_color=ORANGE_MED)
+                               label="SiLU( . )", label_color=WHITE)
         silu_box.next_to(w1_box, RIGHT, buff=0.6)
 
         mult_label = body_text("x", color=WHITE)
@@ -184,7 +184,7 @@ class FeedForwardScene(LLMScene):
             stroke = col
             fill = str(PURPLE_MED) + "44" if is_highlight else str(col) + "22"
             b = rounded_box(2.0, 0.55, fill_color=fill,
-                            stroke_color=stroke, label=lbl, label_color=col)
+                            stroke_color=stroke, label=lbl, label_color=WHITE)
             step_boxes.add(b)
 
         step_boxes.arrange(DOWN, buff=0.12)
@@ -275,21 +275,21 @@ class FeedForwardScene(LLMScene):
                              fill_color=str(GREEN_MED) + "22",
                              stroke_color=GREEN_MED,
                              label="W1 (key matrix)\nLooks for patterns in input",
-                             label_color=GREEN_MED)
+                             label_color=WHITE)
         w1_mem.shift(LEFT * 2.5 + UP * 0.5)
 
         act_mem = rounded_box(2.8, 0.8,
                               fill_color=str(ORANGE_MED) + "22",
                               stroke_color=ORANGE_MED,
                               label="Activation\nFires for matching patterns",
-                              label_color=ORANGE_MED)
+                              label_color=WHITE)
         act_mem.shift(ORIGIN + UP * 0.5)
 
         w2_mem = rounded_box(3.2, 1.0,
                              fill_color=str(BLUE_MED) + "22",
                              stroke_color=BLUE_MED,
                              label="W2 (value matrix)\nRetrieves stored facts",
-                             label_color=BLUE_MED)
+                             label_color=WHITE)
         w2_mem.shift(RIGHT * 2.5 + UP * 0.5)
 
         arr_kv1 = Arrow(w1_mem.get_right(), act_mem.get_left(),
@@ -322,13 +322,13 @@ class FeedForwardScene(LLMScene):
         attn_box = rounded_box(5.0, 3.5,
                                fill_color=str(BLUE_MED) + "22",
                                stroke_color=BLUE_MED,
-                               label="", label_color=BLUE_MED)
+                               label="", label_color=WHITE)
         attn_box.shift(LEFT * 3.3)
 
         ffn_box = rounded_box(5.0, 3.5,
                               fill_color=str(PURPLE_MED) + "22",
                               stroke_color=PURPLE_MED,
-                              label="", label_color=PURPLE_MED)
+                              label="", label_color=WHITE)
         ffn_box.shift(RIGHT * 3.3)
 
         attn_heading = body_text("Attention", color=BLUE_MED)

@@ -24,7 +24,7 @@ class RLHFOverviewScene(LLMScene):
         before_box = rounded_box(5.5, 1.5, fill_color=str(RED_MED) + "22",
                                  stroke_color=RED_MED,
                                  label="Base GPT-3 (175B)\nCompletes harmful prompts\nHallucinates confidently\nIgnores actual user intent",
-                                 label_color=RED_MED)
+                                 label_color=WHITE)
         before_box.shift(LEFT * 3.2 + DOWN * 0.2)
 
         after_box = rounded_box(5.5, 1.5, fill_color=GREEN_DARK,
@@ -115,7 +115,7 @@ class RLHFOverviewScene(LLMScene):
         ppo_boxes = VGroup()
         for lbl, col, note in ppo_steps:
             b = rounded_box(2.2, 0.85, fill_color=str(col) + "22",
-                            stroke_color=col, label=lbl, label_color=col)
+                            stroke_color=col, label=lbl, label_color=WHITE)
             n = label_text(note, color=GREY_LIGHT)
             n.next_to(b, DOWN, buff=0.18)
             ppo_boxes.add(VGroup(b, n))
@@ -158,7 +158,7 @@ class RLHFOverviewScene(LLMScene):
             rounded_box(3.5, 0.75, fill_color=str(RED_MED) + "22",
                         stroke_color=RED_MED,
                         label="Without clipping\nratio can go to 5x, 10x...\nUnstable huge updates!",
-                        label_color=RED_MED),
+                        label_color=WHITE),
             rounded_box(3.5, 0.75, fill_color=GREEN_DARK,
                         stroke_color=GREEN_MED,
                         label="With clipping (eps=0.2)\nratio bounded to [0.8, 1.2]\nStable conservative steps",
@@ -216,7 +216,7 @@ class RLHFOverviewScene(LLMScene):
         node_group = VGroup()
         for name, col, pos in nodes:
             b = rounded_box(1.6, 0.75, fill_color=str(col) + "22",
-                            stroke_color=col, label=name, label_color=col)
+                            stroke_color=col, label=name, label_color=WHITE)
             b.move_to(pos)
             node_boxes[name] = b
             node_group.add(b)
@@ -283,9 +283,9 @@ class RLHFOverviewScene(LLMScene):
             rounded_box(2.4, 0.75, fill_color=str(BLUE_MED) + "22",
                         stroke_color=BLUE_MED, label="SFT\nmodel", label_color=BLUE_LIGHT),
             rounded_box(2.4, 0.75, fill_color=str(ORANGE_MED) + "22",
-                        stroke_color=ORANGE_MED, label="Train\nReward Model", label_color=ORANGE_MED),
+                        stroke_color=ORANGE_MED, label="Train\nReward Model", label_color=WHITE),
             rounded_box(2.4, 0.75, fill_color=str(PURPLE_MED) + "22",
-                        stroke_color=PURPLE_MED, label="PPO +\nKL penalty", label_color=PURPLE_MED),
+                        stroke_color=PURPLE_MED, label="PPO +\nKL penalty", label_color=WHITE),
             rounded_box(2.4, 0.75, fill_color=GREEN_DARK,
                         stroke_color=GREEN_MED, label="Aligned\nLLM", label_color=GREEN_LIGHT),
         )
@@ -409,7 +409,7 @@ class RLHFOverviewScene(LLMScene):
         evol_boxes = VGroup()
         for lbl, col, note in evol_data:
             b = rounded_box(2.2, 0.85, fill_color=str(col) + "22",
-                            stroke_color=col, label=lbl, label_color=col)
+                            stroke_color=col, label=lbl, label_color=WHITE)
             n = label_text(note, color=GREY_LIGHT)
             n.next_to(b, DOWN, buff=0.18)
             evol_boxes.add(VGroup(b, n))
