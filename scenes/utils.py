@@ -109,13 +109,12 @@ def make_vector_display(values: list, color=BLUE_LIGHT,
                         decimal_places: int = 2) -> VGroup:
     """Render a short list of floats as a bracketed column vector."""
     entries = VGroup(*[
-        DecimalNumber(v, num_decimal_places=decimal_places,
-                      color=color, font_size=20)
+        Text(f"{v:.{decimal_places}f}", color=color, font_size=20)
         for v in values
     ])
     entries.arrange(DOWN, buff=0.15)
-    bracket_l = MathTex("[", color=WHITE, font_size=36)
-    bracket_r = MathTex("]", color=WHITE, font_size=36)
+    bracket_l = Text("[", color=WHITE, font_size=36)
+    bracket_r = Text("]", color=WHITE, font_size=36)
     bracket_l.next_to(entries, LEFT, buff=0.1)
     bracket_r.next_to(entries, RIGHT, buff=0.1)
     return VGroup(bracket_l, entries, bracket_r)

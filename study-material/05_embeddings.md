@@ -127,6 +127,134 @@ Larger models use bigger embeddings — more dimensions = more capacity to repre
 
 ---
 
+## The Embedding Table — A Giant Lookup Dictionary 🗄️
+
+Think of the embedding table as an enormous Excel spreadsheet:
+- **Rows:** one for each token in the vocabulary (e.g., 128,256 rows for LLaMA 3)
+- **Columns:** one for each dimension (e.g., 4,096 columns)
+- **Each cell:** a single floating-point number learned during training
+
+When the model receives token ID 1547, it doesn't compute anything — it simply looks up row 1547 and retrieves the entire row as a vector. This is a pure lookup, like using a dictionary.
+
+**How much memory does this take?**
+For LLaMA 3 8B:
+- 128,256 tokens × 4,096 dimensions × 2 bytes (fp16) = ~1 GB just for the embedding table!
+
+That's a significant fraction of the total model size, which is why vocabulary size is carefully balanced.
+
+**Weight tying:** Some models (like GPT-2) use the same matrix for both the input embedding table AND the output prediction layer. The idea: if the embedding of "cat" represents "cat-ness," then the output layer should also use this same "cat-ness" vector to decide when to output "cat." This trick reduces parameters and often improves quality.
+
+---
+
+## What Do the Dimensions Actually Represent? 🔍
+
+This is one of the most fascinating questions in AI research. The honest answer: **we don't fully know.**
+
+Researchers have identified some interesting patterns:
+- Some dimensions correlate with **sentiment** (positive vs negative words)
+- Some correlate with **animacy** (living vs non-living things)
+- Some seem to track **grammatical role** (noun-ness, verb-ness)
+- Some capture **domain** (medical terms, legal terms, sports)
+
+But here's the twist: embeddings use **superposition** — meaning many concepts can be encoded in the same dimensions at once, compressed together. This is why individual dimensions aren't cleanly interpretable.
+
+**Mechanistic Interpretability** is a growing field trying to reverse-engineer what each neuron and dimension actually encodes. The field has found "monosemantic neurons" (neurons that fire for one concept) and "polysemantic neurons" (neurons that fire for completely unrelated concepts, like "the name Michael" AND "a specific NBA team" AND "the word 'base'").
+
+---
+
+## Word2Vec and the History of Embeddings 📜
+
+Before modern LLMs, the breakthrough was **Word2Vec** (Google, 2013). It was the first method to show that meaningful geometry emerges in word vectors:
+
+**How Word2Vec works:**
+1. Take a word, look at its surrounding words (its "context window")
+2. Train a simple neural network to predict: given this word, what words appear nearby?
+3. The internal representation the network learns = the word embedding
+
+Two training variants:
+- **CBOW** (Continuous Bag of Words): predict the center word from surrounding words
+- **Skip-gram**: predict surrounding words from the center word
+
+**Why it was revolutionary:** Before Word2Vec, words were just IDs. After Word2Vec, "king" and "queen" were geometrically similar. The king-man+woman=queen result made the world take notice.
+
+**GloVe** (Stanford, 2014) followed with a different approach — instead of predicting contexts, it analyzed word co-occurrence statistics across the entire corpus. GloVe often performed similarly to Word2Vec but was faster to train.
+
+These "static" embeddings (one vector per word, regardless of context) were state-of-the-art until BERT arrived in 2018.
+
+---
+
+## Contextual Embeddings — How BERT Changed Everything 🏆
+
+**BERT** (Google, 2018) introduced truly contextual embeddings. Unlike Word2Vec's single static vector per word, BERT produces a **different vector depending on the surrounding sentence**.
+
+The same word "bank" in:
+- "I went to the **bank** to deposit money" → one vector
+- "We sat by the river **bank**" → a completely different vector
+
+**How BERT achieves this:** By running the full sentence through multiple layers of a Transformer. Each layer refines the representation by considering all other words. By the final layer, every word's representation has absorbed information from the entire context.
+
+**What changed for NLP:**
+- Pre-BERT: train a model from scratch for each task (sentiment analysis, question answering, etc.)
+- Post-BERT: pre-train on massive text once, then fine-tune on specific tasks. This "transfer learning" revolution made NLP tasks dramatically easier.
+
+Modern LLMs like GPT and Claude use the same contextual principle, but instead of bidirectional context (BERT can look both left and right), they use **unidirectional** context (they can only look left — at previous tokens). This is necessary for text generation, where future tokens haven't been written yet.
+
+---
+
+## Embedding Size in Real Models 📐
+
+The embedding dimension is one of the most important hyperparameters in LLM design:
+
+| Model | Params | Embed Dim | Layers | Heads |
+|---|---|---|---|---|
+| GPT-2 Small | 117M | 768 | 12 | 12 |
+| GPT-2 XL | 1.5B | 1600 | 48 | 25 |
+| GPT-3 | 175B | 12,288 | 96 | 96 |
+| LLaMA 3 8B | 8B | 4,096 | 32 | 32 |
+| LLaMA 3 70B | 70B | 8,192 | 80 | 64 |
+| LLaMA 3 405B | 405B | 16,384 | 126 | 128 |
+
+Notice the pattern: bigger models have larger embedding dimensions. This is because a larger embedding space can represent more subtle semantic distinctions. With only 768 dimensions, there are fewer "directions" available, so concepts have to share space. With 12,288 dimensions, each concept can have its own clean direction.
+
+---
+
+## Common Misconceptions About Embeddings ⚠️
+
+**Misconception 1: "Embeddings are the model's knowledge."**
+Not quite. Embeddings are just the *input representation*. The actual "knowledge" is distributed across all the model's weights — the attention heads, feed-forward layers, etc. The embedding is just how text gets turned into numbers at the entrance.
+
+**Misconception 2: "Similar token IDs = similar meanings."**
+Completely false. Token ID 500 and token ID 501 are neighbors by accident. The embedding table is what creates meaningful proximity — not the ID numbers themselves.
+
+**Misconception 3: "The model uses embeddings all the way through."**
+No! The initial embedding is just the starting representation. Every transformer layer *modifies* this representation. By the time you reach the final layer, the vectors bear little resemblance to the original embeddings. These modified vectors are called **hidden states** or **activations**, not embeddings.
+
+**Misconception 4: "You can directly compare embeddings from different models."**
+False. Each model trains its own embedding space from random initialization. There's no universal coordinate system. "King" in GPT-4's embedding space points in a completely different direction than "king" in LLaMA's embedding space.
+
+**Misconception 5: "Larger embedding dimensions always = better."**
+More dimensions help up to a point, but they also increase computational cost quadratically in attention. The right size depends on the model's overall parameter budget and the tasks it needs to handle.
+
+---
+
+## The Semantic Space — Why Geometry Matters 📐
+
+The fact that meanings can be represented as **locations in space** is profoundly powerful. Here's why geometry matters:
+
+**Clustering:** Words with similar meanings cluster together. "Happy," "joyful," "elated" are all nearby. This means when the model encounters an unfamiliar word, if its embedding is near the "happy" cluster, the model can make reasonable inferences.
+
+**Directions encode relationships:** The vector from "man" to "woman" encodes the "gender" direction. The vector from "king" to "queen" is nearly parallel. This means the gender relationship generalizes — "uncle" to "aunt," "brother" to "sister," "actor" to "actress" all point in similar directions.
+
+**Cosine similarity:** Rather than Euclidean distance, embeddings typically use cosine similarity (angle between vectors). This is because the magnitude of a vector doesn't carry meaning — only its direction does. A word that appears frequently might have a larger-magnitude vector just due to having more training examples.
+
+**Applications beyond LLMs:** Embeddings are the backbone of:
+- Semantic search (find documents similar in meaning, not just keyword matches)
+- Recommendation systems (find products similar to ones you liked)
+- Translation (map sentences in different languages to nearby points)
+- Anomaly detection (find texts that are semantically unusual)
+
+---
+
 ## Key Takeaways
 
 | Concept | Plain English |
@@ -137,6 +265,8 @@ Larger models use bigger embeddings — more dimensions = more capacity to repre
 | Embedding Arithmetic | You can do math on meanings: king - man + woman = queen |
 | Contextual Embedding | The same word gets different vectors in different contexts |
 | Embedding Dimension | How many numbers describe each token (higher = richer) |
+| Static Embedding | One fixed vector per word regardless of context (Word2Vec, GloVe) |
+| Hidden State | The modified representation after transformer layers process the embedding |
 
 ---
 
