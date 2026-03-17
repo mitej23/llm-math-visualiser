@@ -1,6 +1,6 @@
 # LLM Math Visualiser
 
-Plain-English study material + Manim animations covering all core LLM/Transformer concepts.
+Plain-English study material + Manim animations covering LLM/Transformer concepts and alignment (RLHF/RL).
 
 ---
 
@@ -24,14 +24,26 @@ llm-math-visualiser/
 │   ├── 13_prefill_and_decode.md
 │   ├── 14_logits_and_token_selection.md
 │   ├── 15_temperature_top_k_top_p.md
-│   └── 16_mixture_of_experts.md
+│   ├── 16_mixture_of_experts.md
+│   │
+│   │   ── Bridge: Transformer → RL ──
+│   ├── 17_training_loop_and_loss.md
+│   ├── 18_supervised_fine_tuning.md
+│   ├── 19_reward_models.md
+│   ├── 20_kl_divergence.md
+│   └── 21_rlhf_overview.md
 │
-└── scenes/                  # Manim animation scripts (16 topics)
+└── scenes/                  # Manim animation scripts (21 topics)
     ├── utils.py             # Shared helpers, colour palette, LLMScene base class
     ├── 01_neural_networks.py
     ├── 02_linear_layers.py
     ├── ...
-    └── 16_mixture_of_experts.py
+    ├── 16_mixture_of_experts.py
+    ├── 17_training_loop.py
+    ├── 18_supervised_fine_tuning.py
+    ├── 19_reward_models.py
+    ├── 20_kl_divergence.py
+    └── 21_rlhf_overview.py
 ```
 
 ---
@@ -85,6 +97,11 @@ done
 | `14_logits_and_token_selection.py` | `LogitsTokenSelectionScene` |
 | `15_temperature_sampling.py` | `TemperatureSamplingScene` |
 | `16_mixture_of_experts.py` | `MixtureOfExpertsScene` |
+| `17_training_loop.py` | `TrainingLoopScene` |
+| `18_supervised_fine_tuning.py` | `SFTScene` |
+| `19_reward_models.py` | `RewardModelsScene` |
+| `20_kl_divergence.py` | `KLDivergenceScene` |
+| `21_rlhf_overview.py` | `RLHFOverviewScene` |
 
 ---
 
@@ -106,3 +123,18 @@ done
 14. Logits & Token Selection — picking the next word
 15. Temperature, Top-k, Top-p — controlling creativity
 16. Mixture of Experts — specialization at scale
+
+### Bridge: Transformer → RL
+17. Training Loop & Loss Functions — how models actually learn
+18. Supervised Fine-Tuning (SFT) — from base model to assistant
+19. Reward Models — teaching a machine to judge
+20. KL Divergence — don't stray too far
+21. RLHF Overview — the full alignment pipeline
+
+### Sources (Bridge Series)
+- Ouyang et al., InstructGPT — arxiv.org/abs/2203.02155
+- Lambert et al., HuggingFace RLHF Blog — huggingface.co/blog/rlhf
+- Huang et al., N+ Implementation Details — huggingface.co/blog/the_n_implementation_details_of_rlhf_with_ppo
+- Rafailov et al., DPO — arxiv.org/abs/2305.18290
+- Lilian Weng, Policy Gradient Algorithms — lilianweng.github.io/posts/2018-04-08-policy-gradient
+- OpenAI Spinning Up — spinningup.openai.com
